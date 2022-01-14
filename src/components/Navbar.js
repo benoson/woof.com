@@ -3,10 +3,10 @@ import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
 import NavbarItem from "./NavbarItem";
 
-import wLogo from "../assets/images/W logo.png";
 import ben from "../assets/images/ben_with_guitar.jpg";
 import notificationIconSVG from "../assets/svgs/notification_icon.svg";
 import chatIcon from "../assets/svgs/chat_icon.svg";
+import homeIcon from "../assets/svgs/home_icon.svg";
 
 const styles = makeStyles({
   container: {
@@ -29,24 +29,22 @@ const Navbar = () => {
         xs={4}
         alignItems="flex-end"
         className={classes.innerContainer}
-        columnGap={2}
+        columnGap={1}
       >
         <Grid item xs={2}>
-          <NavbarItem main img={ben} />
+          <NavbarItem main img={ben} rounded />
         </Grid>
 
-        <Grid container item xs={8} spacing={1}>
-          <Grid container item xs={3}>
-            <NavbarItem img={wLogo} />
-          </Grid>
+        <Grid item xs={2}>
+          <NavbarItem img={homeIcon} />
+        </Grid>
 
-          <Grid container item xs={3}>
-            <NavbarItem img={notificationIconSVG} />
-          </Grid>
+        <Grid item xs={2}>
+          <NavbarItem img={notificationIconSVG} />
+        </Grid>
 
-          <Grid container item xs={3}>
-            <NavbarItem img={chatIcon} />
-          </Grid>
+        <Grid item xs={2}>
+          <NavbarItem img={chatIcon} />
         </Grid>
       </Grid>
     </Grid>

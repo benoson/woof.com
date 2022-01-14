@@ -1,45 +1,35 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
 import classnames from "classnames";
+import Button from "@mui/material/Button";
 
 const styles = makeStyles({
-  mainContainer: {
-    borderRadius: "15px",
-    width: "87px",
-    height: "87px",
-    cursor: "pointer",
-    "& img": {
-      width: "100%",
-      borderRadius: "15px",
-    },
-  },
-  normalContainer: {
+  containerButton: {
     borderRadius: "5px",
     padding: "3px",
-    border: "1px solid lightslategrey",
-    height: "35px",
+    height: "42px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    cursor: "pointer",
     "& img": {
       height: "100%",
     },
   },
+  rounded: {
+    borderRadius: "50%",
+  },
 });
 
-const NavbarItem = ({ main, img }) => {
+const NavbarItem = ({ img, rounded }) => {
   const classes = styles();
-  const styledContainer = classnames({
-    [classes.normalContainer]: !main,
-    [classes.mainContainer]: main,
+  const styledImage = classnames({
+    [classes.rounded]: rounded,
   });
 
   return (
-    <Grid item className={styledContainer} xs={12}>
-      <img src={img} alt=""></img>
-    </Grid>
+    <Button className={classes.containerButton} fullWidth>
+      <img alt="" src={img} className={styledImage} />
+    </Button>
   );
 };
 

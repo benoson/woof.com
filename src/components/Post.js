@@ -1,6 +1,12 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
+import Button from "@mui/material/Button";
+import commentIcon from "../assets/svgs/comment_icon.svg";
+import moreIcon from "../assets/svgs/more_icon.svg";
+import Typography from "@mui/material/Typography";
+import thumbUp from "../assets/svgs/thumb_up.svg";
+import thumbDown from "../assets/svgs/thumb_down.svg";
 
 const styles = makeStyles({
   authorImg: {
@@ -14,7 +20,10 @@ const styles = makeStyles({
     height: "100%",
     maxHeight: "350px",
     border: "1px solid lightslategrey",
-    borderRadius: "15px",
+    borderRadius: "5px",
+  },
+  underBox: {
+    padding: "10px 0",
   },
 });
 
@@ -54,7 +63,7 @@ const Post = (params) => {
 
         {/* TOP RIGHT */}
         <Grid container item xs={6} justifyContent="flex-end">
-          :
+          <img alt="" src={moreIcon} />
         </Grid>
       </Grid>
 
@@ -65,20 +74,60 @@ const Post = (params) => {
         xs={12}
         justifyContent="flex-start"
         alignItems="center"
+        mt={1}
       >
-        <Grid item>{postContent.title}</Grid>
+        <Typography variant="subtitle1" component="div" gutterBottom>
+          {postContent.title}
+        </Typography>
       </Grid>
 
       {/* Post BOX */}
-      <Grid
-        container
-        item
-        xs={12}
-        justifyContent="flex-start"
-        alignItems="center"
-      >
-        <Grid item xs={12} className={classes.postImageContainer}>
-          <img src={authorImg} alt="" className={classes.postImage} />
+      {postContent && (
+        <Grid
+          container
+          item
+          xs={12}
+          justifyContent="flex-start"
+          alignItems="center"
+        >
+          <Grid item xs={12} className={classes.postImageContainer}>
+            <img src={authorImg} alt="" className={classes.postImage} />
+          </Grid>
+        </Grid>
+      )}
+
+      <Grid item container xs={6} spacing={2} className={classes.underBox}>
+        <Grid item xs={3}>
+          <Button
+            variant="outlined"
+            fullWidth
+            startIcon={<img alt="" src={thumbUp} />}
+            disableRipple
+          >
+            {likes}
+          </Button>
+        </Grid>
+
+        <Grid item xs={3}>
+          <Button
+            variant="outlined"
+            fullWidth
+            startIcon={<img alt="" src={thumbDown} />}
+            disableRipple
+          >
+            {disLikes}
+          </Button>
+        </Grid>
+
+        <Grid item xs={3}>
+          <Button
+            variant="outlined"
+            fullWidth
+            startIcon={<img alt="" src={commentIcon} />}
+            disableRipple
+          >
+            {comments}
+          </Button>
         </Grid>
       </Grid>
     </Grid>

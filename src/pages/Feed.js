@@ -28,6 +28,34 @@ const Feed = () => {
         textContent: "",
       },
     },
+    {
+      id: 1,
+      authorName: "Chris Hemsworth",
+      timePosted: "2h",
+      authorImg: ben,
+      likes: 14,
+      disLikes: 1,
+      comments: 3,
+      postContent: {
+        title: "I find this meme funny",
+        img: "",
+        textContent: "",
+      },
+    },
+    {
+      id: 2,
+      authorName: "Chris Hemsworth",
+      timePosted: "2h",
+      authorImg: ben,
+      likes: 14,
+      disLikes: 1,
+      comments: 3,
+      postContent: {
+        title: "I find this meme funny",
+        img: "",
+        textContent: "",
+      },
+    },
   ];
 
   return (
@@ -36,6 +64,9 @@ const Feed = () => {
       item
       xs={12}
       justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
+      rowGap={6}
       className={classes.container}
     >
       {posts.map((post) => (
