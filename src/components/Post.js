@@ -33,12 +33,12 @@ const Post = (params) => {
   const {
     id,
     authorName,
-    timePosted,
+    timeOfCreation,
     authorImg,
     likes,
     disLikes,
     comments,
-    postContent,
+    content,
   } = params.post;
 
   return (
@@ -58,7 +58,7 @@ const Post = (params) => {
           </Grid>
           <Grid item>{authorName}</Grid>
           <Grid item>*</Grid>
-          <Grid item>{timePosted}</Grid>
+          <Grid item>{timeOfCreation}</Grid>
         </Grid>
 
         {/* TOP RIGHT */}
@@ -77,12 +77,12 @@ const Post = (params) => {
         mt={1}
       >
         <Typography variant="subtitle1" component="div" gutterBottom>
-          {postContent.title}
+          {content.title}
         </Typography>
       </Grid>
 
       {/* Post BOX */}
-      {postContent && (
+      {content && (
         <Grid
           container
           item
@@ -91,7 +91,7 @@ const Post = (params) => {
           alignItems="center"
         >
           <Grid item xs={12} className={classes.postImageContainer}>
-            <img src={authorImg} alt="" className={classes.postImage} />
+            <img src={content.img} alt="" className={classes.postImage} />
           </Grid>
         </Grid>
       )}
@@ -104,7 +104,7 @@ const Post = (params) => {
             startIcon={<img alt="" src={thumbUp} />}
             disableRipple
           >
-            {likes}
+            {likes.length}
           </Button>
         </Grid>
 
@@ -115,7 +115,7 @@ const Post = (params) => {
             startIcon={<img alt="" src={thumbDown} />}
             disableRipple
           >
-            {disLikes}
+            {disLikes.length}
           </Button>
         </Grid>
 
@@ -126,7 +126,7 @@ const Post = (params) => {
             startIcon={<img alt="" src={commentIcon} />}
             disableRipple
           >
-            {comments}
+            {comments.length}
           </Button>
         </Grid>
       </Grid>

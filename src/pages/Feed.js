@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
 import Post from "../components/Post";
 import ben from "../assets/images/ben_with_guitar.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import postsActionTypes from "../redux/actionTypes/postsActionTypes";
+import { postsSelector } from "../redux/selectors";
 
 const styles = makeStyles({
   container: {
@@ -12,51 +15,12 @@ const styles = makeStyles({
 
 const Feed = () => {
   const classes = styles();
+  const dispatch = useDispatch();
+  const posts = useSelector(postsSelector);
 
-  const posts = [
-    {
-      id: 0,
-      authorName: "Chris Hemsworth",
-      timePosted: "2h",
-      authorImg: ben,
-      likes: 14,
-      disLikes: 1,
-      comments: 3,
-      postContent: {
-        title: "I find this meme funny",
-        img: "",
-        textContent: "",
-      },
-    },
-    {
-      id: 1,
-      authorName: "Chris Hemsworth",
-      timePosted: "2h",
-      authorImg: ben,
-      likes: 14,
-      disLikes: 1,
-      comments: 3,
-      postContent: {
-        title: "I find this meme funny",
-        img: "",
-        textContent: "",
-      },
-    },
-    {
-      id: 2,
-      authorName: "Chris Hemsworth",
-      timePosted: "2h",
-      authorImg: ben,
-      likes: 14,
-      disLikes: 1,
-      comments: 3,
-      postContent: {
-        title: "I find this meme funny",
-        img: "",
-        textContent: "",
-      },
-    },
-  ];
+  useEffect(() => {
+    dispatch({ type: postsActionTypes.FEED_DATA_FETCH_REQUEST });
+  }, []);
 
   return (
     <Grid
@@ -70,7 +34,7 @@ const Feed = () => {
       className={classes.container}
     >
       {posts.map((post) => (
-        <Post key={post.id} post={post} />
+        <Post key={post._id} post={post} />
       ))}
     </Grid>
   );
