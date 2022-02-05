@@ -10,8 +10,11 @@ import homeIcon from "../assets/svgs/home_icon.svg";
 
 const styles = makeStyles({
   container: {
-    borderBottom: "1px solid lightslategrey",
     boxShadow: "0 6px 5px 0px #0000001c",
+    position: "sticky",
+    top: 0,
+    backgroundColor: "white",
+    zIndex: 999,
   },
   innerContainer: {
     padding: "15px 25px",
