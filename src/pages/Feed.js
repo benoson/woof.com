@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
-import Post from "../components/Post";
-import ben from "../assets/images/ben_with_guitar.jpg";
+import Post from "../components/post/Post";
 import { useDispatch, useSelector } from "react-redux";
 import postsActionTypes from "../redux/actionTypes/postsActionTypes";
 import { postsSelector } from "../redux/selectors";
