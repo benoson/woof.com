@@ -1,54 +1,29 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import commentIcon from "../../assets/svgs/comment_icon.svg";
-import thumbUp from "../../assets/svgs/thumb_up.svg";
-import thumbDown from "../../assets/svgs/thumb_down.svg";
+import ReactionsSection from "./ReactionsSection";
+import CommentsSection from "./CommentsSection";
 
 const styles = makeStyles({
-  underBox: {
+  sectionContainer: {
     padding: "10px 0",
   },
 });
 
-const PostBottomSection = ({ likes, disLikes, comments }) => {
+const PostBottomSection = ({ reactions, comments }) => {
   const classes = styles();
 
   return (
-    <Grid item container xs={6} spacing={2} className={classes.underBox}>
-      <Grid item xs={3}>
-        <Button
-          variant="outlined"
-          fullWidth
-          startIcon={<img alt="" src={thumbUp} />}
-          disableRipple
-        >
-          {likes.length}
-        </Button>
-      </Grid>
-
-      <Grid item xs={3}>
-        <Button
-          variant="outlined"
-          fullWidth
-          startIcon={<img alt="" src={thumbDown} />}
-          disableRipple
-        >
-          {disLikes.length}
-        </Button>
-      </Grid>
-
-      <Grid item xs={3}>
-        <Button
-          variant="outlined"
-          fullWidth
-          startIcon={<img alt="" src={commentIcon} />}
-          disableRipple
-        >
-          {comments.length}
-        </Button>
-      </Grid>
+    <Grid
+      container
+      item
+      xs={12}
+      justifyContent="space-between"
+      alignItems="center"
+      className={classes.sectionContainer}
+    >
+      <ReactionsSection reactions={reactions} />
+      <CommentsSection comments={comments} />
     </Grid>
   );
 };

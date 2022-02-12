@@ -9,10 +9,10 @@ const Post = ({ post }) => {
   const {
     id,
     authorName,
+    title,
     timeOfCreation,
     authorImg,
-    likes,
-    disLikes,
+    reactions,
     comments,
     content,
   } = post;
@@ -25,15 +25,11 @@ const Post = ({ post }) => {
         timeOfCreation={timeOfCreation}
       />
 
-      <PostSubHeader title={content.title} />
+      <PostSubHeader title={title} />
 
       <PostContent content={content} />
 
-      <PostBottomSection
-        likes={likes}
-        disLikes={disLikes}
-        comments={comments}
-      />
+      <PostBottomSection reactions={reactions} comments={comments} />
     </Grid>
   );
 };
