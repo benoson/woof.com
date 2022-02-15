@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
 import { useDispatch } from "react-redux";
 import appActionTypes from "../../redux/actionTypes/appActionTypes";
+import { ReactComponent as CircularCancelIcon } from "../../assets/svgs/circular_cancel_icon.svg";
 
 const styles = makeStyles({
   container: {
@@ -19,10 +20,11 @@ const styles = makeStyles({
     backgroundColor: "white",
     boxShadow: "0px 0px 5px 3px #00000036",
     borderRadius: "5px",
-    padding: "15px",
+    padding: "25px",
   },
   imageUploadedContainer: {
     textAlign: "center",
+    position: "relative",
   },
   imageUploaded: {
     objectFit: "cover",
@@ -31,6 +33,14 @@ const styles = makeStyles({
   },
   chip: {
     marginRight: "10px",
+  },
+  dropZone: {
+    height: "150px",
+  },
+  removeImageButton: {
+    position: "absolute",
+    top: 0,
+    right: 0,
   },
 });
 
@@ -77,8 +87,15 @@ const UploadSection = () => {
       alignItems="center"
       className={classes.container}
     >
-      <Grid item xs={6} className={classes.innerContainer}>
-        <Grid container rowGap={2}>
+      <Grid
+        item
+        container
+        xs={6}
+        rowGap={2}
+        className={classes.innerContainer}
+        alignItems="space-between"
+      >
+        <Grid container item>
           <Grid item xs={12}>
             <TextField
               id="outlined-basic"
@@ -115,42 +132,50 @@ const UploadSection = () => {
             ))}
           </Grid>
 
-          {loadedImage && (
+          {loadedImage ? (
             <Grid item xs={12} className={classes.imageUploadedContainer}>
               <img src={loadedImage} className={classes.imageUploaded} alt="" />
+
+              <ContainerButton
+                component="label"
+                onClick={onCancelUpload}
+                className={classes.removeImageButton}
+              >
+                <CircularCancelIcon />
+              </ContainerButton>
+            </Grid>
+          ) : (
+            <Grid item xs={12}>
+              <ContainerButton component="label" variant="outlined">
+                Click here or drop an image
+                <input type="file" hidden onChange={onImageUpload} />
+              </ContainerButton>
             </Grid>
           )}
+        </Grid>
 
-          <Grid item xs={12}>
-            <ContainerButton fullWidth component="label" variant="outlined">
-              Click here or drop an image
-              <input type="file" hidden onChange={onImageUpload} />
+        <Grid
+          item
+          container
+          xs={12}
+          justifyContent="flex-end"
+          alignItems="flex-end"
+          spacing={3}
+        >
+          <Grid item xs={2}>
+            <ContainerButton
+              component="label"
+              variant="outlined"
+              onClick={onCancelUpload}
+            >
+              Cancel
             </ContainerButton>
           </Grid>
 
-          <Grid
-            item
-            container
-            xs={12}
-            justifyContent="space-between"
-            alignSelf="flex-end"
-          >
-            <Grid item xs={4}>
-              <ContainerButton fullWidth component="label" variant="outlined">
-                Done
-              </ContainerButton>
-            </Grid>
-
-            <Grid item xs={4}>
-              <ContainerButton
-                fullWidth
-                component="label"
-                variant="outlined"
-                onClick={onCancelUpload}
-              >
-                Cancel
-              </ContainerButton>
-            </Grid>
+          <Grid item xs={2}>
+            <ContainerButton component="label" variant="outlined">
+              Done
+            </ContainerButton>
           </Grid>
         </Grid>
       </Grid>
