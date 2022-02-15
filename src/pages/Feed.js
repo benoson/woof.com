@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
-import Post from "../components/post/Post";
 import { useDispatch, useSelector } from "react-redux";
 import postsActionTypes from "../redux/actionTypes/postsActionTypes";
 import { postsSelector } from "../redux/selectors";
+import PostsSection from "../components/post/PostsSection";
 
 const styles = makeStyles({
   container: {
-    padding: "35px 0",
+    padding: "20px 0px",
   },
 });
 
@@ -22,19 +22,12 @@ const Feed = () => {
   }, []);
 
   return (
-    <Grid
-      container
-      item
-      xs={12}
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-      rowGap={6}
-      className={classes.container}
-    >
-      {posts.map((post) => (
-        <Post key={post._id} post={post} />
-      ))}
+    <Grid container className={classes.container}>
+      <Grid container item xs={12} justifyContent="center" alignItems="center">
+        <Grid item xs={12}>
+          <PostsSection posts={posts} />
+        </Grid>
+      </Grid>
     </Grid>
   );
 };

@@ -12,7 +12,7 @@ const styles = makeStyles({
     textAlign: "center",
     cursor: "pointer",
     border: "1px solid white",
-    transition: "0.3s ease",
+    transition: "0.2s ease",
     "&:hover": {
       backgroundColor: "lightslategrey",
     },

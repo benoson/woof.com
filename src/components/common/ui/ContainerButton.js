@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import classnames from "classnames";
 import Button from "@mui/material/Button";
 
 const styles = makeStyles({
@@ -15,22 +14,16 @@ const styles = makeStyles({
       height: "100%",
     },
   },
-  rounded: {
-    borderRadius: "50%",
-  },
 });
 
-const NavbarItem = ({ img, rounded }) => {
+const ContainerButton = ({ children, ...props }) => {
   const classes = styles();
-  const styledImage = classnames({
-    [classes.rounded]: rounded,
-  });
 
   return (
-    <Button className={classes.containerButton} fullWidth>
-      <img alt="" src={img} className={styledImage} />
+    <Button className={classes.containerButton} {...props}>
+      {children}
     </Button>
   );
 };
 
-export default NavbarItem;
+export default ContainerButton;

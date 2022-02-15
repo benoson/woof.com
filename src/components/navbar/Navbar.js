@@ -3,10 +3,15 @@ import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
 import NavbarItem from "./NavbarItem";
 
-import ben from "../assets/images/ben_with_guitar.jpg";
-import notificationIconSVG from "../assets/svgs/notification_icon.svg";
-import chatIcon from "../assets/svgs/chat_icon.svg";
-import homeIcon from "../assets/svgs/home_icon.svg";
+import ben from "../../assets/images/ben_with_guitar.jpg";
+import notificationIconSVG from "../../assets/svgs/notification_icon.svg";
+import chatIcon from "../../assets/svgs/chat_icon.svg";
+import homeIcon from "../../assets/svgs/home_icon.svg";
+
+import AddCircularIcon from "../../assets/svgs/add_circular_icon.svg";
+import { useDispatch } from "react-redux";
+
+import appActionTypes from "../../redux/actionTypes/appActionTypes";
 
 const styles = makeStyles({
   container: {
@@ -23,6 +28,11 @@ const styles = makeStyles({
 
 const Navbar = () => {
   const classes = styles();
+  const dispatch = useDispatch();
+
+  const onUploadClick = () => {
+    dispatch({ type: appActionTypes.DISPLAY_UPLOAD_SECTION });
+  };
 
   return (
     <Grid container item xs={12} className={classes.container}>
@@ -48,6 +58,10 @@ const Navbar = () => {
 
         <Grid item xs={2}>
           <NavbarItem img={chatIcon} />
+        </Grid>
+
+        <Grid item xs={2}>
+          <NavbarItem img={AddCircularIcon} onClick={onUploadClick} />
         </Grid>
       </Grid>
     </Grid>

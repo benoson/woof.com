@@ -18,7 +18,7 @@ const Post = ({ post }) => {
   } = post;
 
   return (
-    <Grid container item xs={5}>
+    <Grid container item xs={12}>
       <PostHeader
         authorImg={authorImg}
         authorName={authorName}

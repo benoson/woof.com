@@ -79,8 +79,3 @@ export const allEmojisObject = {
   SantaClaus,
   UpsideDownFace,
 };
-
-export const randomEmoji = () => {
-  const randomIndex = Math.floor(Math.random() * allEmojisArray.length - 1);
-  return allEmojisArray[randomIndex];
-};
