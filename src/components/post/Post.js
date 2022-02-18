@@ -14,7 +14,7 @@ const Post = ({ post }) => {
     authorImg,
     reactions,
     comments,
-    content,
+    image,
   } = post;
 
   return (
@@ -27,7 +27,7 @@ const Post = ({ post }) => {
 
       <PostSubHeader title={title} />
 
-      <PostContent content={content} />
+      <PostContent image={image} />
 
       <PostBottomSection reactions={reactions} comments={comments} />
     </Grid>

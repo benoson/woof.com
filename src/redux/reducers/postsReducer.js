@@ -13,6 +13,13 @@ const postsReducer = (state = defaultState, action) => {
     case postsActionTypes.FEED_DATA_FETCH_FAIL:
       return { ...state, error: action.payload };
 
+    case postsActionTypes.ADD_POST_SUCCESS:
+      return {
+        ...state,
+        feedPosts: [...state.feedPosts, action.payload],
+        error: null,
+      };
+
     default:
       return state;
   }

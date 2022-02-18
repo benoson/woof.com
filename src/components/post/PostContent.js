@@ -14,7 +14,7 @@ const styles = makeStyles({
   },
 });
 
-const PostContent = ({ content }) => {
+const PostContent = ({ image }) => {
   const classes = styles();
 
   return (
@@ -26,7 +26,7 @@ const PostContent = ({ content }) => {
       alignItems="center"
     >
       <Grid item xs={12} className={classes.postImageContainer}>
-        <img src={content.img} alt="" className={classes.postImage} />
+        <img src={image} alt="" className={classes.postImage} />
       </Grid>
     </Grid>
   );

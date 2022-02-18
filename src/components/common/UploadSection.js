@@ -7,6 +7,7 @@ import Chip from "@mui/material/Chip";
 import { useDispatch } from "react-redux";
 import appActionTypes from "../../redux/actionTypes/appActionTypes";
 import { ReactComponent as CircularCancelIcon } from "../../assets/svgs/circular_cancel_icon.svg";
+import postsActionTypes from "../../redux/actionTypes/postsActionTypes";
 
 const styles = makeStyles({
   container: {
@@ -27,7 +28,7 @@ const styles = makeStyles({
     position: "relative",
   },
   imageUploaded: {
-    objectFit: "cover",
+    // objectFit: "cover",
     width: "350px",
     height: "350px",
   },
@@ -48,9 +49,15 @@ const UploadSection = () => {
   const classes = styles();
   const dispatch = useDispatch();
 
+  const [title, setTitle] = useState("");
   const [loadedImage, setLoadedImage] = useState(null);
   const [tagsInputValue, setTagsInputValue] = useState("");
   const [tags, setTags] = useState([]);
+
+  const onTitleChange = (event) => {
+    const trimmedTitle = event.target.value.trim();
+    setTitle(trimmedTitle);
+  };
 
   function onImageUpload(event) {
     let file = event.target.files[0];
@@ -67,15 +74,38 @@ const UploadSection = () => {
   };
 
   const onTagsInputKeyDown = (event) => {
-    if (event.which === 13) {
-      const newTag = event.target.value.trim();
-      setTags((currentTags) => [...currentTags, newTag]);
-      setTagsInputValue("");
+    const inputValueTrimmed = event.target.value.trim();
+
+    if (event.which === 13 && tags.length < 5 && inputValueTrimmed !== "") {
+      const isTagAlreadyExist = tags.find((tag) => tag === inputValueTrimmed);
+
+      if (!isTagAlreadyExist) {
+        setTags((currentTags) => [...currentTags, inputValueTrimmed]);
+        setTagsInputValue("");
+      }
     }
   };
 
-  const onCancelUpload = () => {
+  const onCloseUploadSection = () => {
     dispatch({ type: appActionTypes.HIDE_UPLOAD_SECTION });
+  };
+
+  const onTagDelete = (tag) => {
+    const tagIndex = tags.indexOf(tag);
+    const newTags = [...tags];
+    newTags.splice(tagIndex, 1);
+    setTags(newTags);
+  };
+
+  const onImageDelete = () => {
+    setLoadedImage(null);
+  };
+
+  const onDoneClick = () => {
+    dispatch({
+      type: postsActionTypes.ADD_POST_REQUEST,
+      payload: { title, image: loadedImage },
+    });
   };
 
   return (
@@ -86,6 +116,7 @@ const UploadSection = () => {
       justifyContent="center"
       alignItems="center"
       className={classes.container}
+      onClick={onCloseUploadSection}
     >
       <Grid
         item
@@ -94,11 +125,14 @@ const UploadSection = () => {
         rowGap={2}
         className={classes.innerContainer}
         alignItems="space-between"
+        onClick={(e) => e.stopPropagation()}
       >
         <Grid container item>
           <Grid item xs={12}>
             <TextField
               id="outlined-basic"
+              value={title}
+              onChange={onTitleChange}
               variant="standard"
               multiline
               rows={4}
@@ -111,7 +145,7 @@ const UploadSection = () => {
             <TextField
               id="outlined-basic1"
               variant="standard"
-              label="Tags (separated by enter key)"
+              label="Tags separated by enter (up to 5)"
               fullWidth
               value={tagsInputValue}
               onChange={onTagsInputChange}
@@ -125,8 +159,9 @@ const UploadSection = () => {
                 <Chip
                   className={classes.chip}
                   label={tag}
-                  onClick={"handleClick"}
-                  onDelete={"handleDelete"}
+                  onDelete={() => {
+                    onTagDelete(tag);
+                  }}
                 />
               </Grid>
             ))}
@@ -138,7 +173,7 @@ const UploadSection = () => {
 
               <ContainerButton
                 component="label"
-                onClick={onCancelUpload}
+                onClick={onImageDelete}
                 className={classes.removeImageButton}
               >
                 <CircularCancelIcon />
@@ -166,14 +201,18 @@ const UploadSection = () => {
             <ContainerButton
               component="label"
               variant="outlined"
-              onClick={onCancelUpload}
+              onClick={onCloseUploadSection}
             >
               Cancel
             </ContainerButton>
           </Grid>
 
           <Grid item xs={2}>
-            <ContainerButton component="label" variant="outlined">
+            <ContainerButton
+              component="label"
+              variant="outlined"
+              onClick={onDoneClick}
+            >
               Done
             </ContainerButton>
           </Grid>
