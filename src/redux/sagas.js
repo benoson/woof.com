@@ -1,6 +1,9 @@
 import { all, call, put, takeLatest } from "redux-saga/effects";
 import * as postService from "../services/postService";
+import * as userService from "../services/userService";
 import postsActionTypes from "./actionTypes/postsActionTypes";
+import usersActionTypes from "./actionTypes/usersActionTypes";
+import { push } from "react-router-redux";
 
 function* getFeedData(action) {
   try {
@@ -35,6 +38,34 @@ function* addPostListener() {
   yield takeLatest(postsActionTypes.ADD_POST_REQUEST, addPost);
 }
 
+function* register(action) {
+  try {
+    const { userName, profileImage, password, confirmPassword } =
+      action.payload;
+    yield call(
+      userService.register,
+      userName,
+      profileImage,
+      password,
+      confirmPassword
+    );
+    yield put({
+      type: usersActionTypes.REGISTER_SUCCESS,
+      payload: {
+        userName,
+        profileImage,
+      },
+    });
+    yield put(push("/home")); // THIS LINE NEEDS TO BE CHECKED, IT DOESN'T WORK
+  } catch (error) {
+    yield put({ type: usersActionTypes.REGISTER_FAIL, payload: error });
+  }
+}
+
+function* registerListener() {
+  yield takeLatest(usersActionTypes.REGISTER_REQUEST, register);
+}
+
 export default function* postSagas() {
-  yield all([getFeedDataListener(), addPostListener()]);
+  yield all([getFeedDataListener(), addPostListener(), registerListener()]);
 }

@@ -6,14 +6,23 @@ import { TextField } from "@mui/material";
 import ContainerButton from "../components/common/ui/ContainerButton";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import usersActionTypes from "../redux/actionTypes/usersActionTypes";
 
 const styles = makeStyles({
   container: {
     padding: "20px 0px",
   },
+  profileImageContainer: {
+    textAlignL: "center",
+  },
+  profileImage: {
+    objectFit: "cover",
+    width: "250px",
+    height: "250px",
+  },
 });
 
-const Login = () => {
+const Register = () => {
   const classes = styles();
   const dispatch = useDispatch();
 
@@ -40,13 +49,36 @@ const Login = () => {
   };
 
   const onProfileImageChange = (event) => {
-    const profileImage = event.target.value.trim();
-    setProfileImage(profileImage);
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = (e) => {
+      setProfileImage(reader.result);
+    };
   };
 
   const onShowPasswordsClick = (event) => {
     setIsShowPasswords(event.target.checked);
   };
+
+  const onDoneClick = () => {
+    dispatch({
+      type: usersActionTypes.REGISTER_REQUEST,
+      payload: { userName, profileImage, password, confirmPassword },
+    });
+  };
+
+  const getIsDoneButtonDisabled = () => {
+    return !(
+      userName.trim() !== "" &&
+      password.trim() !== "" &&
+      confirmPassword.trim() === password &&
+      profileImage
+    );
+  };
+
+  const isDoneButtonDisabled = getIsDoneButtonDisabled();
 
   return (
     <Grid container className={classes.container} justifyContent="center">
@@ -96,19 +128,31 @@ const Login = () => {
         </Grid>
 
         <Grid container item xs={12}>
-          <ContainerButton component="label" fullWidth variant="outlined">
-            Click here to upload your profile image
-            <input
-              type="file"
-              hidden
-              onChange={onProfileImageChange}
-              accept=".png, .jpg"
-            />
-          </ContainerButton>
+          {profileImage ? (
+            <Grid item xs={12} className={classes.profileImageContainer}>
+              <img src={profileImage} className={classes.profileImage} alt="" />
+            </Grid>
+          ) : (
+            <ContainerButton component="label" fullWidth variant="outlined">
+              Click here to upload your profile image
+              <input
+                type="file"
+                hidden
+                onChange={onProfileImageChange}
+                accept=".png, .jpg"
+              />
+            </ContainerButton>
+          )}
         </Grid>
 
         <Grid container item xs={12}>
-          <ContainerButton component="label" fullWidth variant="outlined">
+          <ContainerButton
+            component="label"
+            fullWidth
+            variant="outlined"
+            onClick={onDoneClick}
+            disabled={isDoneButtonDisabled}
+          >
             Done
           </ContainerButton>
         </Grid>
@@ -117,4 +161,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

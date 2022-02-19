@@ -60,8 +60,8 @@ const UploadSection = () => {
   };
 
   function onImageUpload(event) {
-    let file = event.target.files[0];
-    let reader = new FileReader();
+    const file = event.target.files[0];
+    const reader = new FileReader();
     reader.readAsDataURL(file);
 
     reader.onloadend = (e) => {
