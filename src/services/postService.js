@@ -11,9 +11,9 @@ export const getFeedData = async () => {
   }
 };
 
-export const addPost = async ({ title, image }) => {
+export const addPost = async (title, image) => {
   try {
-    return await axios.post(`${serverUrl}/posts`);
+    return await axios.post(`${serverUrl}/posts`, { title, image });
   } catch (error) {
     console.error("Error posting new post:", error);
   }
