@@ -102,28 +102,6 @@ const UploadSection = () => {
   };
 
   const onDoneClick = () => {
-    // const getInstance = () => {
-    //   return axios.create({
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   });
-    // };
-
-    // const fileUplaod = (file) => {
-    //   let formData = new FormData();
-    //   formData.append("images", file, file.name);
-
-    //   getInstance()
-    //     .post(endpoint_post_url, formData)
-    //     .then((response) => {
-    //       console.log("IMAGES_SUBMIT_SUCCESS");
-    //     })
-    //     .catch((err) => {
-    //       console.error("image submit error", err);
-    //     });
-    // };
-
     dispatch({
       type: postsActionTypes.ADD_POST_REQUEST,
       payload: { title, image: loadedImage },

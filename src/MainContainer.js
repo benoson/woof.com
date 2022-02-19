@@ -11,6 +11,7 @@ import Feed from "./pages/Feed";
 import UploadSection from "./components/common/UploadSection";
 import { shouldDisplayUploadSectionSelector } from "./redux/selectors";
 import { useSelector } from "react-redux";
+import Login from "./pages/Login";
 
 const MainContainer = () => {
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
@@ -24,6 +25,8 @@ const MainContainer = () => {
       <Router>
         <Routes>
           <Route exact path="/" element={<Feed />} />
+          <Route exact path="/login" element={<Login />} />
+
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
