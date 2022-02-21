@@ -56,7 +56,6 @@ function* register(action) {
         profileImage,
       },
     });
-    yield put(push("/home")); // THIS LINE NEEDS TO BE CHECKED, IT DOESN'T WORK
   } catch (error) {
     yield put({ type: usersActionTypes.REGISTER_FAIL, payload: error });
   }
@@ -66,6 +65,6 @@ function* registerListener() {
   yield takeLatest(usersActionTypes.REGISTER_REQUEST, register);
 }
 
-export default function* postSagas() {
+export default function* sagas() {
   yield all([getFeedDataListener(), addPostListener(), registerListener()]);
 }

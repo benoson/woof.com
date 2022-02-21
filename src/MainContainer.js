@@ -9,12 +9,16 @@ import { Grid } from "@mui/material";
 import Navbar from "./components/navbar/Navbar";
 import Feed from "./pages/Feed";
 import UploadSection from "./components/common/UploadSection";
-import { shouldDisplayUploadSectionSelector } from "./redux/selectors";
+import {
+  shouldDisplayUploadSectionSelector,
+  userSelector,
+} from "./redux/selectors";
 import { useSelector } from "react-redux";
 import Register from "./pages/Register";
 
 const MainContainer = () => {
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
+  const userFromState = useSelector(userSelector);
 
   return (
     <Grid container>
@@ -24,7 +28,11 @@ const MainContainer = () => {
 
       <Router>
         <Routes>
-          <Route exact path="/" element={<Feed />} />
+          <Route
+            exact
+            path="/"
+            element={userFromState.isLogged ? <Feed /> : <Register />}
+          />
           <Route exact path="/register" element={<Register />} />
 
           <Route path="*" element={<Navigate to="/" />} />

@@ -1,7 +1,7 @@
 import usersActionTypes from "../actionTypes/usersActionTypes";
 
 const defaultState = {
-  user: {
+  userData: {
     isLogged: false,
     userName: "",
     profileImage: "",
@@ -9,13 +9,13 @@ const defaultState = {
   error: null,
 };
 
-const postsReducer = (state = defaultState, action) => {
+const userReducer = (state = defaultState, action) => {
   switch (action.type) {
     case usersActionTypes.REGISTER_SUCCESS:
       const { userName, profileImage } = action.payload;
       return {
         ...state,
-        user: { ...state.user, isLogged: true, userName, profileImage },
+        userData: { ...state.userData, isLogged: true, userName, profileImage },
         error: null,
       };
 
@@ -24,4 +24,4 @@ const postsReducer = (state = defaultState, action) => {
   }
 };
 
-export default postsReducer;
+export default userReducer;

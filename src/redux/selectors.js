@@ -5,3 +5,7 @@ export const postsSelector = (state) => {
 export const shouldDisplayUploadSectionSelector = (state) => {
   return state.app.isShowUploadSection;
 };
+
+export const userSelector = (state) => {
+  return state.user.userData;
+};
