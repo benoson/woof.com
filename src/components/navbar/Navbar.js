@@ -2,16 +2,13 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
 import NavbarItem from "./NavbarItem";
-
-import ben from "../../assets/images/ben_with_guitar.jpg";
 import notificationIconSVG from "../../assets/svgs/notification_icon.svg";
 import chatIcon from "../../assets/svgs/chat_icon.svg";
 import homeIcon from "../../assets/svgs/home_icon.svg";
-
 import AddCircularIcon from "../../assets/svgs/add_circular_icon.svg";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import appActionTypes from "../../redux/actionTypes/appActionTypes";
+import { userSelector } from "../../redux/selectors";
 
 const styles = makeStyles({
   container: {
@@ -29,6 +26,7 @@ const styles = makeStyles({
 const Navbar = () => {
   const classes = styles();
   const dispatch = useDispatch();
+  const userFromState = useSelector(userSelector);
 
   const onUploadClick = () => {
     dispatch({ type: appActionTypes.DISPLAY_UPLOAD_SECTION });
@@ -45,7 +43,7 @@ const Navbar = () => {
         columnGap={1}
       >
         <Grid item xs={2}>
-          <NavbarItem main img={ben} rounded />
+          <NavbarItem main img={userFromState.profileImage} rounded />
         </Grid>
 
         <Grid item xs={2}>

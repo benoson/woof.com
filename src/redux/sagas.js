@@ -3,7 +3,6 @@ import * as postService from "../services/postService";
 import * as userService from "../services/userService";
 import postsActionTypes from "./actionTypes/postsActionTypes";
 import usersActionTypes from "./actionTypes/usersActionTypes";
-import { push } from "react-router-redux";
 
 function* getFeedData(action) {
   try {
@@ -42,7 +41,7 @@ function* register(action) {
   try {
     const { userName, profileImage, password, confirmPassword } =
       action.payload;
-    yield call(
+    const userRegisterDataFromServer = yield call(
       userService.register,
       userName,
       profileImage,
@@ -52,8 +51,7 @@ function* register(action) {
     yield put({
       type: usersActionTypes.REGISTER_SUCCESS,
       payload: {
-        userName,
-        profileImage,
+        userRegisterDataFromServer,
       },
     });
   } catch (error) {
@@ -65,6 +63,35 @@ function* registerListener() {
   yield takeLatest(usersActionTypes.REGISTER_REQUEST, register);
 }
 
+function* login(action) {
+  try {
+    const { userName, password } = action.payload;
+    const userLoginDataFromServer = yield call(
+      userService.login,
+      userName,
+      password
+    );
+
+    yield put({
+      type: usersActionTypes.LOGIN_SUCCESS,
+      payload: {
+        userDataFromServer: userLoginDataFromServer,
+      },
+    });
+  } catch (error) {
+    yield put({ type: usersActionTypes.LOGIN_FAIL, payload: error });
+  }
+}
+
+function* loginListener() {
+  yield takeLatest(usersActionTypes.LOGIN_REQUEST, login);
+}
+
 export default function* sagas() {
-  yield all([getFeedDataListener(), addPostListener(), registerListener()]);
+  yield all([
+    getFeedDataListener(),
+    addPostListener(),
+    registerListener(),
+    loginListener(),
+  ]);
 }

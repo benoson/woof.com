@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
 import { useDispatch } from "react-redux";
@@ -134,7 +134,7 @@ const Register = () => {
             </Grid>
           ) : (
             <ContainerButton component="label" fullWidth variant="outlined">
-              Click here to upload your profile image
+              Upload A profile image
               <input
                 type="file"
                 hidden

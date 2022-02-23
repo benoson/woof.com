@@ -15,6 +15,7 @@ import {
 } from "./redux/selectors";
 import { useSelector } from "react-redux";
 import Register from "./pages/Register";
+import RegisterOrLogin from "./pages/RegisterOrLogin";
 
 const MainContainer = () => {
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
@@ -22,7 +23,7 @@ const MainContainer = () => {
 
   return (
     <Grid container>
-      <Navbar />
+      {userFromState.isLogged && <Navbar />}
 
       {isShowUploadSection && <UploadSection />}
 
@@ -31,7 +32,7 @@ const MainContainer = () => {
           <Route
             exact
             path="/"
-            element={userFromState.isLogged ? <Feed /> : <Register />}
+            element={userFromState.isLogged ? <Feed /> : <RegisterOrLogin />}
           />
           <Route exact path="/register" element={<Register />} />
 
