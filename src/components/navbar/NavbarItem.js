@@ -6,6 +6,9 @@ import ContainerButton from "../common/ui/ContainerButton";
 const styles = makeStyles({
   rounded: {
     borderRadius: "50%",
+    maxWidth: "40px",
+    objectFit: "cover",
+    boxShadow: "0px 0px 1px 0px lightslategrey",
   },
 });
 

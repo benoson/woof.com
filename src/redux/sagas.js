@@ -75,7 +75,7 @@ function* login(action) {
     yield put({
       type: usersActionTypes.LOGIN_SUCCESS,
       payload: {
-        userDataFromServer: userLoginDataFromServer,
+        userLoginDataFromServer,
       },
     });
   } catch (error) {
