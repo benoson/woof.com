@@ -6,22 +6,14 @@ import PostContent from "./PostContent";
 import PostBottomSection from "./PostBottomSection";
 
 const Post = ({ post }) => {
-  const {
-    id,
-    authorName,
-    title,
-    timeOfCreation,
-    authorImg,
-    reactions,
-    comments,
-    image,
-  } = post;
+  const { id, title, timeOfCreation, author, reactions, comments, image } =
+    post;
 
   return (
     <Grid container item xs={12}>
       <PostHeader
-        authorImg={authorImg}
-        authorName={authorName}
+        authorImg={author.image}
+        authorName={author.name}
         timeOfCreation={timeOfCreation}
       />
 

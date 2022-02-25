@@ -1,29 +1,29 @@
-import React from "react";
+import { Grid } from "@mui/material";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
-  Routes,
-  Route,
   Navigate,
+  Route,
+  Routes,
 } from "react-router-dom";
-import { Grid } from "@mui/material";
+import UploadSection from "./components/common/UploadSection";
 import Navbar from "./components/navbar/Navbar";
 import Feed from "./pages/Feed";
-import UploadSection from "./components/common/UploadSection";
+import RegisterOrLogin from "./pages/RegisterOrLogin";
 import {
   shouldDisplayUploadSectionSelector,
   userSelector,
 } from "./redux/selectors";
-import { useSelector } from "react-redux";
-import Register from "./pages/Register";
-import RegisterOrLogin from "./pages/RegisterOrLogin";
+import CheckAuth from "./components/common/logic/CheckAuth";
 
 const MainContainer = () => {
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
-  const userFromState = useSelector(userSelector);
+  const userState = useSelector(userSelector);
 
   return (
     <Grid container>
-      {userFromState.isLogged && <Navbar />}
+      {userState.isLogged && <Navbar />}
 
       {isShowUploadSection && <UploadSection />}
 
@@ -32,11 +32,11 @@ const MainContainer = () => {
           <Route
             exact
             path="/"
-            element={userFromState.isLogged ? <Feed /> : <RegisterOrLogin />}
+            element={userState.isLogged ? <Feed /> : <RegisterOrLogin />}
           />
-          <Route exact path="/register" element={<Register />} />
 
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route exact path="/login" element={<RegisterOrLogin />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
     </Grid>

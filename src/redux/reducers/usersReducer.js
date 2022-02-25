@@ -40,6 +40,12 @@ const userReducer = (state = defaultState, action) => {
         error: null,
       };
 
+    case usersActionTypes.AUTH_CHECK:
+      return {
+        ...state,
+        userData: { ...state.userData, isLogged: action.payload },
+      };
+
     default:
       return state;
   }

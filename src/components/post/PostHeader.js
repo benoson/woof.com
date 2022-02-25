@@ -27,9 +27,9 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation }) => {
         <Grid item>
           <img src={authorImg} alt="" className={classes.authorImg} />
         </Grid>
-        <Grid item>{authorName}</Grid>
-        <Grid item>*</Grid>
-        <Grid item>{timeOfCreation}</Grid>
+        <Grid item>
+          {authorName}, {timeOfCreation}
+        </Grid>
       </Grid>
 
       <Grid container item xs={6} justifyContent="flex-end">
