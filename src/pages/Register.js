@@ -7,6 +7,7 @@ import ContainerButton from "../components/common/ui/ContainerButton";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import usersActionTypes from "../redux/actionTypes/usersActionTypes";
+import Resizer from "react-image-file-resizer";
 
 const styles = makeStyles({
   container: {
@@ -21,6 +22,22 @@ const styles = makeStyles({
     height: "250px",
   },
 });
+
+const resizeFile = (file) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      300,
+      400,
+      "PNG",
+      80,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "base64"
+    );
+  });
 
 const Register = () => {
   const classes = styles();
@@ -48,13 +65,14 @@ const Register = () => {
     setConfirmPassword(confirmPasswordTrimmed);
   };
 
-  const onProfileImageChange = (event) => {
+  const onProfileImageChange = async (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
+    const compressedImage = await resizeFile(file);
     reader.readAsDataURL(file);
 
     reader.onloadend = (e) => {
-      setProfileImage(reader.result);
+      setProfileImage(compressedImage);
     };
   };
 

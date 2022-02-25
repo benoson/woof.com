@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import appActionTypes from "../../redux/actionTypes/appActionTypes";
 import { ReactComponent as CircularCancelIcon } from "../../assets/svgs/circular_cancel_icon.svg";
 import postsActionTypes from "../../redux/actionTypes/postsActionTypes";
+import Resizer from "react-image-file-resizer";
 
 const styles = makeStyles({
   container: {
@@ -45,12 +46,29 @@ const styles = makeStyles({
   },
 });
 
+const resizeFile = (file) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      300,
+      400,
+      "PNG",
+      80,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "base64"
+    );
+  });
+
 const UploadSection = () => {
   const classes = styles();
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
-  const [loadedImage, setLoadedImage] = useState(null);
+  const [imageForUpload, setImageForUpload] = useState(null);
+  const [imageForDisplay, setImageForDisplay] = useState(null);
   const [tagsInputValue, setTagsInputValue] = useState("");
   const [tags, setTags] = useState([]);
 
@@ -59,15 +77,16 @@ const UploadSection = () => {
     setTitle(trimmedTitle);
   };
 
-  function onImageUpload(event) {
+  const onImageUpload = async (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
-    reader.onloadend = (e) => {
-      setLoadedImage(reader.result);
+    reader.onloadend = async () => {
+      setImageForUpload(await resizeFile(file));
+      setImageForDisplay(reader.result);
     };
-  }
+  };
 
   const onTagsInputChange = (event) => {
     setTagsInputValue(event.target.value);
@@ -98,13 +117,14 @@ const UploadSection = () => {
   };
 
   const onImageDelete = () => {
-    setLoadedImage(null);
+    setImageForDisplay(null);
+    setImageForUpload(null);
   };
 
   const onDoneClick = () => {
     dispatch({
       type: postsActionTypes.ADD_POST_REQUEST,
-      payload: { title, image: loadedImage },
+      payload: { title, image: imageForUpload },
     });
   };
 
@@ -167,9 +187,13 @@ const UploadSection = () => {
             ))}
           </Grid>
 
-          {loadedImage ? (
+          {imageForDisplay ? (
             <Grid item xs={12} className={classes.imageUploadedContainer}>
-              <img src={loadedImage} className={classes.imageUploaded} alt="" />
+              <img
+                src={imageForDisplay}
+                className={classes.imageUploaded}
+                alt=""
+              />
 
               <ContainerButton
                 component="label"
