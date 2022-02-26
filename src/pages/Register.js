@@ -8,6 +8,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import usersActionTypes from "../redux/actionTypes/usersActionTypes";
 import Resizer from "react-image-file-resizer";
+import { useNavigate } from "react-router-dom";
 
 const styles = makeStyles({
   container: {
@@ -42,6 +43,7 @@ const resizeFile = (file) =>
 const Register = () => {
   const classes = styles();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -83,17 +85,12 @@ const Register = () => {
   const onDoneClick = () => {
     dispatch({
       type: usersActionTypes.REGISTER_REQUEST,
-      payload: { userName, profileImage, password, confirmPassword },
+      payload: { userName, profileImage, password, confirmPassword, navigate },
     });
   };
 
   const getIsDoneButtonDisabled = () => {
-    return !(
-      userName.trim() !== "" &&
-      password.trim() !== "" &&
-      confirmPassword.trim() === password &&
-      profileImage
-    );
+    return !(userName.trim() !== "" && password.trim() !== "" && confirmPassword.trim() === password && profileImage);
   };
 
   const isDoneButtonDisabled = getIsDoneButtonDisabled();
@@ -102,13 +99,7 @@ const Register = () => {
     <Grid container className={classes.container} justifyContent="center">
       <Grid container item xs={6} rowGap={4}>
         <Grid container item xs={12}>
-          <TextField
-            variant="standard"
-            label="User name"
-            value={userName}
-            fullWidth
-            onChange={onUserNameChange}
-          />
+          <TextField variant="standard" label="User name" value={userName} fullWidth onChange={onUserNameChange} />
         </Grid>
 
         <Grid container item xs={12}>
@@ -135,12 +126,7 @@ const Register = () => {
 
         <Grid container item xs={12} alignItems="center">
           <FormControlLabel
-            control={
-              <Checkbox
-                checked={isShowPasswords}
-                onClick={onShowPasswordsClick}
-              />
-            }
+            control={<Checkbox checked={isShowPasswords} onClick={onShowPasswordsClick} />}
             label="Show passwords"
           />
         </Grid>
@@ -153,12 +139,7 @@ const Register = () => {
           ) : (
             <ContainerButton component="label" fullWidth variant="outlined">
               Upload A profile image
-              <input
-                type="file"
-                hidden
-                onChange={onProfileImageChange}
-                accept=".png, .jpg"
-              />
+              <input type="file" hidden onChange={onProfileImageChange} accept=".png, .jpg" />
             </ContainerButton>
           )}
         </Grid>

@@ -1,60 +1,76 @@
 import usersActionTypes from "../actionTypes/usersActionTypes";
-import axios from "axios";
+import { handleAuthResposeFromServer, handleLogout } from "../../components/common/logic/HandleAuth";
 
 const defaultState = {
   userData: {
-    isLogged: false,
-    userName: "",
-    profileImage: "",
+    userName: JSON.parse(localStorage.getItem("userData"))?.user?.name,
+    profileImage: JSON.parse(localStorage.getItem("userData"))?.user?.image,
+    isLogged: JSON.parse(localStorage.getItem("userData"))?.token,
   },
   error: null,
+  loading: false,
 };
 
 const userReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case usersActionTypes.REGISTER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case usersActionTypes.LOGIN_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
     case usersActionTypes.REGISTER_SUCCESS:
       const { userRegisterDataFromServer } = action.payload;
-      handleTokenFromServer(userRegisterDataFromServer.token);
+      handleAuthResposeFromServer(userRegisterDataFromServer);
       return {
         ...state,
         userData: {
           ...state.userData,
-          isLogged: true,
-          userName: userRegisterDataFromServer.user.userName,
+          userName: userRegisterDataFromServer.user.name,
           profileImage: userRegisterDataFromServer.user.image,
+          isLogged: true,
         },
         error: null,
+        loading: false,
       };
 
     case usersActionTypes.LOGIN_SUCCESS:
       const { userLoginDataFromServer } = action.payload;
-      handleTokenFromServer(userLoginDataFromServer.token);
+      handleAuthResposeFromServer(userLoginDataFromServer);
       return {
         ...state,
         userData: {
           ...state.userData,
-          isLogged: true,
-          userName: userLoginDataFromServer.user.userName,
+          userName: userLoginDataFromServer.user.name,
           profileImage: userLoginDataFromServer.user.image,
+          isLogged: true,
         },
         error: null,
+        loading: false,
       };
 
-    case usersActionTypes.AUTH_CHECK:
+    case usersActionTypes.LOGOUT:
+      handleLogout();
       return {
         ...state,
-        userData: { ...state.userData, isLogged: action.payload },
+        userData: {
+          ...state.userData,
+          userName: "",
+          profileImage: "",
+          isLogged: false,
+        },
+        error: null,
       };
 
     default:
       return state;
   }
-};
-
-// PUT THIS IN A NEW ACTIONS FILE
-const handleTokenFromServer = (token) => {
-  localStorage.setItem("token", token);
-  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
 
 export default userReducer;

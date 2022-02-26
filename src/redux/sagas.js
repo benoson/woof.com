@@ -39,8 +39,7 @@ function* addPostListener() {
 
 function* register(action) {
   try {
-    const { userName, profileImage, password, confirmPassword } =
-      action.payload;
+    const { userName, profileImage, password, confirmPassword, navigate } = action.payload;
     const userRegisterDataFromServer = yield call(
       userService.register,
       userName,
@@ -54,6 +53,7 @@ function* register(action) {
         userRegisterDataFromServer,
       },
     });
+    navigate("/");
   } catch (error) {
     yield put({ type: usersActionTypes.REGISTER_FAIL, payload: error });
   }
@@ -65,12 +65,8 @@ function* registerListener() {
 
 function* login(action) {
   try {
-    const { userName, password } = action.payload;
-    const userLoginDataFromServer = yield call(
-      userService.login,
-      userName,
-      password
-    );
+    const { userName, password, navigate } = action.payload;
+    const userLoginDataFromServer = yield call(userService.login, userName, password);
 
     yield put({
       type: usersActionTypes.LOGIN_SUCCESS,
@@ -78,6 +74,7 @@ function* login(action) {
         userLoginDataFromServer,
       },
     });
+    navigate("/");
   } catch (error) {
     yield put({ type: usersActionTypes.LOGIN_FAIL, payload: error });
   }
@@ -88,10 +85,5 @@ function* loginListener() {
 }
 
 export default function* sagas() {
-  yield all([
-    getFeedDataListener(),
-    addPostListener(),
-    registerListener(),
-    loginListener(),
-  ]);
+  yield all([getFeedDataListener(), addPostListener(), registerListener(), loginListener()]);
 }

@@ -189,17 +189,9 @@ const UploadSection = () => {
 
           {imageForDisplay ? (
             <Grid item xs={12} className={classes.imageUploadedContainer}>
-              <img
-                src={imageForDisplay}
-                className={classes.imageUploaded}
-                alt=""
-              />
+              <img src={imageForDisplay} className={classes.imageUploaded} alt="" />
 
-              <ContainerButton
-                component="label"
-                onClick={onImageDelete}
-                className={classes.removeImageButton}
-              >
+              <ContainerButton component="label" onClick={onImageDelete} className={classes.removeImageButton}>
                 <CircularCancelIcon />
               </ContainerButton>
             </Grid>
@@ -207,41 +199,21 @@ const UploadSection = () => {
             <Grid item xs={12}>
               <ContainerButton component="label" variant="outlined">
                 Click here or drop an image
-                <input
-                  type="file"
-                  hidden
-                  onChange={onImageUpload}
-                  accept=".png, .jpg"
-                />
+                <input type="file" hidden onChange={onImageUpload} accept=".png, .jpg" />
               </ContainerButton>
             </Grid>
           )}
         </Grid>
 
-        <Grid
-          item
-          container
-          xs={12}
-          justifyContent="flex-end"
-          alignItems="flex-end"
-          spacing={3}
-        >
+        <Grid item container xs={12} justifyContent="flex-end" alignItems="flex-end" spacing={3}>
           <Grid item xs={2}>
-            <ContainerButton
-              component="label"
-              variant="outlined"
-              onClick={onCloseUploadSection}
-            >
+            <ContainerButton component="label" variant="outlined" onClick={onCloseUploadSection}>
               Cancel
             </ContainerButton>
           </Grid>
 
           <Grid item xs={2}>
-            <ContainerButton
-              component="label"
-              variant="outlined"
-              onClick={onDoneClick}
-            >
+            <ContainerButton component="label" variant="outlined" onClick={onDoneClick}>
               Done
             </ContainerButton>
           </Grid>

@@ -1,38 +1,38 @@
 import { Grid } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
+import AuthenticatedRoute from "./components/common/AuthenticatedRoute";
 import UploadSection from "./components/common/UploadSection";
 import Navbar from "./components/navbar/Navbar";
 import Feed from "./pages/Feed";
 import RegisterOrLogin from "./pages/RegisterOrLogin";
-import {
-  shouldDisplayUploadSectionSelector,
-  userSelector,
-} from "./redux/selectors";
-import CheckAuth from "./components/common/logic/CheckAuth";
+import { shouldDisplayUploadSectionSelector, userLoadingSelector, userSelector } from "./redux/selectors";
+import LoadingIcon from "./components/common/ui/LoadingIcon";
 
 const MainContainer = () => {
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
-  const userState = useSelector(userSelector);
+  const userFromState = useSelector(userSelector);
+  const userLoadingSelectorFromState = useSelector(userLoadingSelector);
 
   return (
     <Grid container>
-      {userState.isLogged && <Navbar />}
-
-      {isShowUploadSection && <UploadSection />}
-
       <Router>
+        {userFromState.isLogged && <Navbar />}
+
+        {isShowUploadSection && <UploadSection />}
+
+        {userLoadingSelectorFromState && <LoadingIcon />}
+
         <Routes>
           <Route
             exact
             path="/"
-            element={userState.isLogged ? <Feed /> : <RegisterOrLogin />}
+            element={
+              <AuthenticatedRoute>
+                <Feed />
+              </AuthenticatedRoute>
+            }
           />
 
           <Route exact path="/login" element={<RegisterOrLogin />} />

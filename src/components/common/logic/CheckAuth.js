@@ -1,19 +1,14 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import usersActionTypes from "../../../redux/actionTypes/usersActionTypes";
+import axios from "axios";
 
 const CheckAuth = () => {
-  const dispatch = useDispatch();
-  const token = JSON.parse(sessionStorage.getItem("token"));
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const token = userData?.token;
 
   if (token) {
-    dispatch({ type: usersActionTypes.AUTH_CHECK, payload: true });
-    return;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    return true;
   }
-
-  dispatch({ type: usersActionTypes.AUTH_CHECK, payload: false });
-
-  return <div></div>;
+  return false;
 };
 
 export default CheckAuth;

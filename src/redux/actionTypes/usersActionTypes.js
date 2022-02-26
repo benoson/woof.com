@@ -7,7 +7,7 @@ const usersActionTypes = {
   LOGIN_SUCCESS: "login.success",
   LOGIN_FAIL: "login.fail",
 
-  AUTH_CHECK: "auth.check",
+  LOGOUT: "logout",
 };
 
 export default usersActionTypes;

@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import ContainerButton from "../components/common/ui/ContainerButton";
 import usersActionTypes from "../redux/actionTypes/usersActionTypes";
+import { useNavigate } from "react-router-dom";
 
 const styles = makeStyles({
   container: {
@@ -25,6 +26,7 @@ const styles = makeStyles({
 const Login = () => {
   const classes = styles();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +50,7 @@ const Login = () => {
   const onDoneClick = () => {
     dispatch({
       type: usersActionTypes.LOGIN_REQUEST,
-      payload: { userName, password },
+      payload: { userName, password, navigate },
     });
   };
 
@@ -62,13 +64,7 @@ const Login = () => {
     <Grid container className={classes.container} justifyContent="center">
       <Grid container item xs={6} rowGap={4}>
         <Grid container item xs={12}>
-          <TextField
-            variant="standard"
-            label="User name"
-            value={userName}
-            fullWidth
-            onChange={onUserNameChange}
-          />
+          <TextField variant="standard" label="User name" value={userName} fullWidth onChange={onUserNameChange} />
         </Grid>
 
         <Grid container item xs={12}>
@@ -84,12 +80,7 @@ const Login = () => {
 
         <Grid container item xs={12} alignItems="center">
           <FormControlLabel
-            control={
-              <Checkbox
-                checked={isShowPassword}
-                onClick={onShowPasswordClick}
-              />
-            }
+            control={<Checkbox checked={isShowPassword} onClick={onShowPasswordClick} />}
             label="Show password"
           />
         </Grid>

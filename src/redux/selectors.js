@@ -9,3 +9,7 @@ export const shouldDisplayUploadSectionSelector = (state) => {
 export const userSelector = (state) => {
   return state.user.userData;
 };
+
+export const userLoadingSelector = (state) => {
+  return state.user.loading;
+};
