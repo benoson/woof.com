@@ -17,7 +17,7 @@ const PostsSection = ({ posts }) => {
       flexDirection="column"
     >
       <Grid item container xs={5} rowGap={6}>
-        {posts.map((post) => (
+        {Object.values(posts).map((post) => (
           <Post key={post._id} post={post} />
         ))}
       </Grid>

@@ -11,10 +11,18 @@ export const getFeedData = async () => {
   }
 };
 
-export const addPost = async (title, image) => {
+export const addPost = async (title, image, tags) => {
   try {
-    return await axios.post(`${serverUrl}/posts`, { title, image });
+    return await axios.post(`${serverUrl}/posts`, { title, image, tags });
   } catch (error) {
     console.error("Error posting new post:", error);
+  }
+};
+
+export const updatePost = async (postId, data) => {
+  try {
+    return await axios.patch(`${serverUrl}/posts/${postId}`, { data });
+  } catch (error) {
+    console.error(`Error updating post ${postId}:`, error);
   }
 };

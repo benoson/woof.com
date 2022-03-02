@@ -5,6 +5,9 @@ const postsActionTypes = {
   ADD_POST_REQUEST: "add.post.request",
   ADD_POST_SUCCESS: "add.post.success",
   ADD_POST_FAIL: "add.post.fail",
+  UPDATE_POST_REQUEST: "update.post.request",
+  UPDATE_POST_SUCCESS: "update.post.success",
+  UPDATE_POST_FAIL: "update.post.fail",
 };
 
 export default postsActionTypes;

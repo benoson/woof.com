@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { allEmojisArray } from "../../assets/svgs/emojis";
+import { allEmojisArray, allEmojisObject } from "../../assets/svgs/emojis";
 import Grid from "@mui/material/Grid";
 
 const styles = makeStyles({
@@ -22,8 +22,15 @@ const styles = makeStyles({
   },
 });
 
-const Reactions = () => {
+const Reactions = ({ setReaction }) => {
   const classes = styles();
+
+  const onReactionClick = (emoji) => {
+    const emojiName = Object.keys(allEmojisObject).find(
+      (key) => allEmojisObject[key] === emoji
+    );
+    setReaction(emojiName);
+  };
 
   return (
     <Grid
@@ -35,7 +42,15 @@ const Reactions = () => {
       className={classes.sectionContainer}
     >
       {allEmojisArray.map((emoji, index) => (
-        <Grid item xs={2} className={classes.emojiContainer} key={index}>
+        <Grid
+          item
+          xs={2}
+          className={classes.emojiContainer}
+          key={index}
+          onClick={() => {
+            onReactionClick(emoji);
+          }}
+        >
           <img className={classes.emoji} src={emoji} alt="" />
         </Grid>
       ))}

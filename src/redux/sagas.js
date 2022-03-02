@@ -22,8 +22,8 @@ function* getFeedDataListener() {
 
 function* addPost(action) {
   try {
-    const { title, image } = action.payload;
-    const postAdded = yield call(postService.addPost, title, image);
+    const { title, image, tags } = action.payload;
+    const postAdded = yield call(postService.addPost, title, image, tags);
     yield put({
       type: postsActionTypes.ADD_POST_SUCCESS,
       payload: postAdded.data,
@@ -37,9 +37,27 @@ function* addPostListener() {
   yield takeLatest(postsActionTypes.ADD_POST_REQUEST, addPost);
 }
 
+function* addReaction(action) {
+  try {
+    const { postId, data } = action.payload;
+    const postUpdated = yield call(postService.updatePost, postId, data);
+    yield put({
+      type: postsActionTypes.UPDATE_POST_SUCCESS,
+      payload: postUpdated.data,
+    });
+  } catch (error) {
+    yield put({ type: postsActionTypes.UPDATE_POST_FAIL, payload: error });
+  }
+}
+
+function* addReactionListener() {
+  yield takeLatest(postsActionTypes.UPDATE_POST_REQUEST, addReaction);
+}
+
 function* register(action) {
   try {
-    const { userName, profileImage, password, confirmPassword, navigate } = action.payload;
+    const { userName, profileImage, password, confirmPassword, navigate } =
+      action.payload;
     const userRegisterDataFromServer = yield call(
       userService.register,
       userName,
@@ -66,7 +84,11 @@ function* registerListener() {
 function* login(action) {
   try {
     const { userName, password, navigate } = action.payload;
-    const userLoginDataFromServer = yield call(userService.login, userName, password);
+    const userLoginDataFromServer = yield call(
+      userService.login,
+      userName,
+      password
+    );
 
     yield put({
       type: usersActionTypes.LOGIN_SUCCESS,
@@ -85,5 +107,11 @@ function* loginListener() {
 }
 
 export default function* sagas() {
-  yield all([getFeedDataListener(), addPostListener(), registerListener(), loginListener()]);
+  yield all([
+    getFeedDataListener(),
+    addPostListener(),
+    addReactionListener(),
+    registerListener(),
+    loginListener(),
+  ]);
 }
