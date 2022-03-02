@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import { InputAdornment } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import Popover from "@mui/material/Popover";
+import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
-import NavbarItem from "./NavbarItem";
-import notificationIconSVG from "../../assets/svgs/notification_icon.svg";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import AddCircularIcon from "../../assets/svgs/add_circular_icon.svg";
 import chatIcon from "../../assets/svgs/chat_icon.svg";
 import homeIcon from "../../assets/svgs/home_icon.svg";
-import AddCircularIcon from "../../assets/svgs/add_circular_icon.svg";
-import { useDispatch, useSelector } from "react-redux";
+import notificationIconSVG from "../../assets/svgs/notification_icon.svg";
+import { ReactComponent as SearchIcon } from "../../assets/svgs/search_icon.svg";
 import appActionTypes from "../../redux/actionTypes/appActionTypes";
 import { userSelector } from "../../redux/selectors";
-import Popover from "@mui/material/Popover";
+import * as userService from "../../services/userService";
 import NavbarDropDown from "./NavbarDropDown";
+import NavbarItem from "./NavbarItem";
 
 const styles = makeStyles({
   container: {
@@ -26,6 +30,9 @@ const styles = makeStyles({
   popoverContent: {
     padding: "10px",
   },
+  searchResultsContainer: {
+    backgroundColor: "lightblue",
+  },
 });
 
 const Navbar = () => {
@@ -33,21 +40,41 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const userFromState = useSelector(userSelector);
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [profileImageAnchorEl, setProfileImageAnchorEl] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
-  const handleProfileImageClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const assignAnchorElement = (event) => {
+    setProfileImageAnchorEl(event.currentTarget);
   };
 
-  const handleClosePopover = () => {
-    setAnchorEl(null);
+  const unAssignAnchorElement = () => {
+    setProfileImageAnchorEl(null);
   };
-
-  const isPopoverOpen = Boolean(anchorEl);
 
   const onUploadClick = () => {
     dispatch({ type: appActionTypes.DISPLAY_UPLOAD_SECTION });
   };
+
+  const onSearchValueChange = async (event) => {
+    const searchValue = event.target.value;
+    setSearchValue(searchValue);
+  };
+
+  useEffect(() => {
+    if (searchValue.trim() !== "") {
+      const getSearchResults = async () => {
+        const searchResults = await userService.getSearchResults(searchValue);
+        setSearchResults(searchResults);
+      };
+
+      getSearchResults();
+    } else {
+      unAssignAnchorElement();
+    }
+  }, [searchValue]);
+
+  const isProfileImagePopoverOpen = Boolean(profileImageAnchorEl);
 
   return (
     <Grid container item xs={12} className={classes.container}>
@@ -61,9 +88,9 @@ const Navbar = () => {
       >
         <Grid item xs={2}>
           <Popover
-            open={isPopoverOpen}
-            anchorEl={anchorEl}
-            onClose={handleClosePopover}
+            open={isProfileImagePopoverOpen}
+            anchorEl={profileImageAnchorEl}
+            onClose={unAssignAnchorElement}
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           >
             <NavbarDropDown userName={userFromState.userName} />
@@ -73,7 +100,7 @@ const Navbar = () => {
             main
             img={userFromState.profileImage}
             rounded
-            onClick={handleProfileImageClick}
+            onClick={assignAnchorElement}
           />
         </Grid>
 
@@ -92,6 +119,45 @@ const Navbar = () => {
         <Grid item xs={2}>
           <NavbarItem img={AddCircularIcon} onClick={onUploadClick} />
         </Grid>
+      </Grid>
+
+      <Grid
+        container
+        item
+        xs={4}
+        alignItems="flex-end"
+        direction="column"
+        className={classes.innerContainer}
+        columnGap={1}
+      >
+        <Grid item xs={12}>
+          <TextField
+            label="Search anything..."
+            InputProps={{
+              autoFocus: true,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            value={searchValue}
+            onChange={(e) => {
+              onSearchValueChange(e);
+            }}
+            variant="outlined"
+          />
+        </Grid>
+
+        {searchResults.length > 0 && (
+          <Grid container item className={classes.x}>
+            {searchResults.map((user, index) => (
+              <Grid item xs={12} key={index}>
+                {user.name}
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </Grid>
     </Grid>
   );

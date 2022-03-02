@@ -35,3 +35,15 @@ export const login = async (userName, password) => {
     console.error("Error trying to login:", error);
   }
 };
+
+export const getSearchResults = async (searchTerm) => {
+  try {
+    const searchRes = await axios.get(
+      `${serverUrl}/users/search/${searchTerm}`
+    );
+
+    return searchRes.data;
+  } catch (error) {
+    console.error("Error trying to login:", error);
+  }
+};
