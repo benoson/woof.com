@@ -30,8 +30,30 @@ const styles = makeStyles({
   popoverContent: {
     padding: "10px",
   },
+  searchContainer: {
+    position: "relative",
+  },
   searchResultsContainer: {
-    backgroundColor: "lightblue",
+    position: "absolute",
+    top: "85px",
+    backgroundColor: "lightslategrey",
+    padding: "10px",
+    borderRadius: "10px",
+    boxShadow: "0 6px 5px 0px #0000006b",
+  },
+  resultBox: {
+    padding: "10px 0",
+    cursor: "pointer",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "white",
+    },
+  },
+  userResultImage: {
+    width: "40px",
+    height: "40px",
+    borderRadius: "50%",
+    objectFit: "cover",
   },
 });
 
@@ -71,6 +93,7 @@ const Navbar = () => {
       getSearchResults();
     } else {
       unAssignAnchorElement();
+      setSearchResults("");
     }
   }, [searchValue]);
 
@@ -125,12 +148,11 @@ const Navbar = () => {
         container
         item
         xs={4}
-        alignItems="flex-end"
-        direction="column"
+        alignItems="center"
         className={classes.innerContainer}
         columnGap={1}
       >
-        <Grid item xs={12}>
+        <Grid item container xs={12} className={classes.searchContainer}>
           <TextField
             label="Search anything..."
             InputProps={{
@@ -147,17 +169,37 @@ const Navbar = () => {
             }}
             variant="outlined"
           />
-        </Grid>
 
-        {searchResults.length > 0 && (
-          <Grid container item className={classes.x}>
-            {searchResults.map((user, index) => (
-              <Grid item xs={12} key={index}>
-                {user.name}
-              </Grid>
-            ))}
-          </Grid>
-        )}
+          {searchResults.length > 0 && (
+            <Grid
+              container
+              item
+              direction="column"
+              className={classes.searchResultsContainer}
+            >
+              {searchResults.map((user, index) => (
+                <Grid
+                  item
+                  container
+                  key={index}
+                  className={classes.resultBox}
+                  alignItems="center"
+                  columnGap={2}
+                >
+                  <Grid item>
+                    <img
+                      src={user.image}
+                      className={classes.userResultImage}
+                      alt=""
+                    />
+                  </Grid>
+
+                  <Grid item>{user.name}</Grid>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+        </Grid>
       </Grid>
     </Grid>
   );
