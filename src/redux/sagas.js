@@ -1,6 +1,7 @@
 import { all, call, put, takeLatest } from "redux-saga/effects";
 import * as postService from "../services/postService";
 import * as userService from "../services/userService";
+import appActionTypes from "./actionTypes/appActionTypes";
 import postsActionTypes from "./actionTypes/postsActionTypes";
 import usersActionTypes from "./actionTypes/usersActionTypes";
 
@@ -12,6 +13,10 @@ function* getFeedData(action) {
       payload: feedData.data,
     });
   } catch (error) {
+    console.error("Error fetching feed data:", error);
+    if (error.response.status === 401) {
+      yield put({ type: usersActionTypes.LOGOUT });
+    }
     yield put({ type: postsActionTypes.FEED_DATA_FETCH_FAIL, payload: error });
   }
 }
@@ -28,6 +33,9 @@ function* addPost(action) {
       type: postsActionTypes.ADD_POST_SUCCESS,
       payload: postAdded.data,
     });
+    yield put({
+      type: appActionTypes.HIDE_UPLOAD_SECTION,
+    });
   } catch (error) {
     yield put({ type: postsActionTypes.ADD_POST_FAIL, payload: error });
   }
@@ -37,7 +45,7 @@ function* addPostListener() {
   yield takeLatest(postsActionTypes.ADD_POST_REQUEST, addPost);
 }
 
-function* addReaction(action) {
+function* updatePost(action) {
   try {
     const { postId, data } = action.payload;
     const postUpdated = yield call(postService.updatePost, postId, data);
@@ -51,20 +59,13 @@ function* addReaction(action) {
 }
 
 function* addReactionListener() {
-  yield takeLatest(postsActionTypes.UPDATE_POST_REQUEST, addReaction);
+  yield takeLatest(postsActionTypes.UPDATE_POST_REQUEST, updatePost);
 }
 
 function* register(action) {
   try {
-    const { userName, profileImage, password, confirmPassword, navigate } =
-      action.payload;
-    const userRegisterDataFromServer = yield call(
-      userService.register,
-      userName,
-      profileImage,
-      password,
-      confirmPassword
-    );
+    const { userName, profileImage, password, confirmPassword, navigate } = action.payload;
+    const userRegisterDataFromServer = yield call(userService.register, userName, profileImage, password, confirmPassword);
     yield put({
       type: usersActionTypes.REGISTER_SUCCESS,
       payload: {
@@ -84,11 +85,7 @@ function* registerListener() {
 function* login(action) {
   try {
     const { userName, password, navigate } = action.payload;
-    const userLoginDataFromServer = yield call(
-      userService.login,
-      userName,
-      password
-    );
+    const userLoginDataFromServer = yield call(userService.login, userName, password);
 
     yield put({
       type: usersActionTypes.LOGIN_SUCCESS,
@@ -107,11 +104,5 @@ function* loginListener() {
 }
 
 export default function* sagas() {
-  yield all([
-    getFeedDataListener(),
-    addPostListener(),
-    addReactionListener(),
-    registerListener(),
-    loginListener(),
-  ]);
+  yield all([getFeedDataListener(), addPostListener(), addReactionListener(), registerListener(), loginListener()]);
 }

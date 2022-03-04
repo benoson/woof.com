@@ -6,6 +6,10 @@ export const shouldDisplayUploadSectionSelector = (state) => {
   return state.app.isShowUploadSection;
 };
 
+export const shouldDisplayPostPopupSectionSelector = (state) => {
+  return state.app.isShowPostPopupSection;
+};
+
 export const userSelector = (state) => {
   return state.user.userData;
 };

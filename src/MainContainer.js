@@ -9,6 +9,7 @@ import Feed from "./pages/Feed";
 import RegisterOrLogin from "./pages/RegisterOrLogin";
 import { shouldDisplayUploadSectionSelector, userLoadingSelector, userSelector } from "./redux/selectors";
 import LoadingIcon from "./components/common/ui/LoadingIcon";
+import PostPopup from "./components/common/PostPopup";
 
 const MainContainer = () => {
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
@@ -35,6 +36,7 @@ const MainContainer = () => {
             }
           />
 
+          <Route exact path="/post/:postId" element={<PostPopup />} />
           <Route exact path="/login" element={<RegisterOrLogin />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

@@ -13,9 +13,7 @@ const postsReducer = (state = defaultState, action) => {
       const newPostsState = { ...state.feedPosts };
 
       allPosts.map((post) => {
-        post.timeOfCreation = moment(new Date(post.timeOfCreation))
-          .startOf("hour")
-          .fromNow();
+        post.timeOfCreation = moment(new Date(post.timeOfCreation)).startOf("hour").fromNow();
 
         newPostsState[post._id] = post;
       });
@@ -27,12 +25,9 @@ const postsReducer = (state = defaultState, action) => {
 
     case postsActionTypes.ADD_POST_SUCCESS:
       const addedPost = action.payload;
-      addedPost.timeOfCreation = moment(new Date(addedPost.timeOfCreation))
-        .startOf("hour")
-        .fromNow();
+      addedPost.timeOfCreation = moment(new Date(addedPost.timeOfCreation)).startOf("hour").fromNow();
 
-      const postsUpdated = { ...state.feedPosts };
-      postsUpdated[addedPost._id] = addedPost;
+      const postsUpdated = Object.assign({ [addedPost._id]: addedPost }, { ...state.feedPosts });
 
       return {
         ...state,
@@ -42,9 +37,7 @@ const postsReducer = (state = defaultState, action) => {
 
     case postsActionTypes.UPDATE_POST_SUCCESS:
       const updatedPost = action.payload;
-      updatedPost.timeOfCreation = moment(new Date(updatedPost.timeOfCreation))
-        .startOf("hour")
-        .fromNow();
+      updatedPost.timeOfCreation = moment(new Date(updatedPost.timeOfCreation)).startOf("hour").fromNow();
 
       const allPostsUpdated = { ...state.feedPosts };
       allPostsUpdated[updatedPost._id] = updatedPost;

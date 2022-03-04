@@ -4,11 +4,7 @@ import * as config from "../config";
 const serverUrl = config.serverConfig.serverUrl;
 
 export const getFeedData = async () => {
-  try {
-    return await axios.get(`${serverUrl}/posts`);
-  } catch (error) {
-    console.error("Error fetching feed data:", error);
-  }
+  return await axios.get(`${serverUrl}/posts`);
 };
 
 export const addPost = async (title, image, tags) => {

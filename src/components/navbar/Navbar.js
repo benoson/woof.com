@@ -35,18 +35,18 @@ const styles = makeStyles({
   },
   searchResultsContainer: {
     position: "absolute",
-    top: "85px",
+    top: "60px",
     backgroundColor: "lightslategrey",
-    padding: "10px",
-    borderRadius: "10px",
+    padding: "10px 0",
+    borderRadius: "3px",
     boxShadow: "0 6px 5px 0px #0000006b",
   },
   resultBox: {
-    padding: "10px 0",
+    padding: "5px 15px",
     cursor: "pointer",
     color: "white",
     "&:hover": {
-      backgroundColor: "white",
+      // backgroundColor: "white",
     },
   },
   userResultImage: {
@@ -55,6 +55,9 @@ const styles = makeStyles({
     borderRadius: "50%",
     objectFit: "cover",
   },
+  addFriendButton: {
+    // width
+  },
 });
 
 const Navbar = () => {
@@ -62,16 +65,16 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const userFromState = useSelector(userSelector);
 
-  const [profileImageAnchorEl, setProfileImageAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   const assignAnchorElement = (event) => {
-    setProfileImageAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget);
   };
 
   const unAssignAnchorElement = () => {
-    setProfileImageAnchorEl(null);
+    setAnchorEl(null);
   };
 
   const onUploadClick = () => {
@@ -81,6 +84,10 @@ const Navbar = () => {
   const onSearchValueChange = async (event) => {
     const searchValue = event.target.value;
     setSearchValue(searchValue);
+  };
+
+  const onSearchFieldOutOfFocus = () => {
+    setSearchResults([]);
   };
 
   useEffect(() => {
@@ -97,64 +104,45 @@ const Navbar = () => {
     }
   }, [searchValue]);
 
-  const isProfileImagePopoverOpen = Boolean(profileImageAnchorEl);
+  const isPopoverOpen = Boolean(anchorEl);
 
   return (
     <Grid container item xs={12} className={classes.container}>
-      <Grid
-        container
-        item
-        xs={4}
-        alignItems="flex-end"
-        className={classes.innerContainer}
-        columnGap={1}
-      >
-        <Grid item xs={2}>
+      <Grid container item xs={4} alignItems="flex-end" className={classes.innerContainer} columnGap={4}>
+        <Grid item xs={1}>
           <Popover
-            open={isProfileImagePopoverOpen}
-            anchorEl={profileImageAnchorEl}
+            open={isPopoverOpen}
+            anchorEl={anchorEl}
             onClose={unAssignAnchorElement}
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           >
             <NavbarDropDown userName={userFromState.userName} />
           </Popover>
 
-          <NavbarItem
-            main
-            img={userFromState.profileImage}
-            rounded
-            onClick={assignAnchorElement}
-          />
+          <NavbarItem main img={userFromState.profileImage} rounded onClick={assignAnchorElement} />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <NavbarItem img={homeIcon} />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <NavbarItem img={notificationIconSVG} />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <NavbarItem img={chatIcon} />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <NavbarItem img={AddCircularIcon} onClick={onUploadClick} />
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        item
-        xs={4}
-        alignItems="center"
-        className={classes.innerContainer}
-        columnGap={1}
-      >
+      <Grid container item xs={4} alignItems="center" className={classes.innerContainer} columnGap={1}>
         <Grid item container xs={12} className={classes.searchContainer}>
           <TextField
-            label="Search anything..."
+            placeholder="Search people"
             InputProps={{
               autoFocus: true,
               startAdornment: (
@@ -163,38 +151,30 @@ const Navbar = () => {
                 </InputAdornment>
               ),
             }}
+            fullWidth
             value={searchValue}
             onChange={(e) => {
               onSearchValueChange(e);
             }}
             variant="outlined"
+            onBlur={onSearchFieldOutOfFocus}
           />
 
           {searchResults.length > 0 && (
-            <Grid
-              container
-              item
-              direction="column"
-              className={classes.searchResultsContainer}
-            >
+            <Grid container item direction="column" className={classes.searchResultsContainer}>
               {searchResults.map((user, index) => (
-                <Grid
-                  item
-                  container
-                  key={index}
-                  className={classes.resultBox}
-                  alignItems="center"
-                  columnGap={2}
-                >
-                  <Grid item>
-                    <img
-                      src={user.image}
-                      className={classes.userResultImage}
-                      alt=""
-                    />
+                <Grid item container key={index} justifyContent="space-between" alignItems="center" className={classes.resultBox}>
+                  <Grid item container xs={6} alignItems="center" columnGap={2}>
+                    <Grid item>
+                      <img src={user.image} className={classes.userResultImage} alt="" />
+                    </Grid>
+
+                    <Grid item>{user.name}</Grid>
                   </Grid>
 
-                  <Grid item>{user.name}</Grid>
+                  <Grid item>
+                    <img src={AddCircularIcon} className={classes.addFriendButton} alt="" />
+                  </Grid>
                 </Grid>
               ))}
             </Grid>

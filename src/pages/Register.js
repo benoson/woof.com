@@ -31,7 +31,7 @@ const resizeFile = (file) =>
       300,
       400,
       "PNG",
-      80,
+      30,
       0,
       (uri) => {
         resolve(uri);
@@ -145,13 +145,7 @@ const Register = () => {
         </Grid>
 
         <Grid container item xs={12}>
-          <ContainerButton
-            component="label"
-            fullWidth
-            variant="outlined"
-            onClick={onDoneClick}
-            disabled={isDoneButtonDisabled}
-          >
+          <ContainerButton component="label" fullWidth variant="outlined" onClick={onDoneClick} disabled={isDoneButtonDisabled}>
             Done
           </ContainerButton>
         </Grid>

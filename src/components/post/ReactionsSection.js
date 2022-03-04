@@ -38,9 +38,12 @@ const styles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
   },
+  reactionTooltip: {
+    marginBottom: "10px",
+  },
 });
 
-const ReactionsSection = ({ reactions, setReaction }) => {
+const ReactionsSection = ({ reactions, onReactionClick }) => {
   const classes = styles();
   const userFromState = useSelector(userSelector);
 
@@ -53,30 +56,29 @@ const ReactionsSection = ({ reactions, setReaction }) => {
     [classes.emojiSelectedContainer]: true,
   });
 
+  const onExistingReactionClick = (isAlreadyReacted, reaction) => {
+    onReactionClick(reaction);
+  };
+
   return (
-    <Grid item container xs={9} columnGap={1}>
+    <Grid item container xs={9} gap={1}>
       {reactions.map((reactionData, index) => (
         <Tooltip title={reactionData.name} key={index}>
           <Grid
             item
             xs={1}
-            className={
-              reactionData.name === userFromState.userName
-                ? emojiSelectedContainerStyle
-                : emojiContainerStyle
-            }
+            className={reactionData.name === userFromState.userName ? emojiSelectedContainerStyle : emojiContainerStyle}
+            onClick={() => {
+              onExistingReactionClick(reactionData.name === userFromState.userName, reactionData.reaction);
+            }}
           >
-            <img
-              className={classes.emoji}
-              src={allEmojisObject[reactionData.reaction]}
-              alt=""
-            />
+            <img className={classes.emoji} src={allEmojisObject[reactionData.reaction]} alt="" />
           </Grid>
         </Tooltip>
       ))}
 
       <Grid item xs={1} className={classes.addReactionTooltipContainer}>
-        <LightTooltip title={<Reactions setReaction={setReaction} />}>
+        <LightTooltip title={<Reactions setReaction={onReactionClick} />}>
           <div className={classes.addReactionTooltipContent}>
             <img className={classes.emoji} src={AddReactionIcon} alt="" />
           </div>

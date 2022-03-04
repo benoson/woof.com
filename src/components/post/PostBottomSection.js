@@ -16,9 +16,7 @@ const PostBottomSection = ({ postId, reactions, comments }) => {
   const classes = styles();
   const dispatch = useDispatch();
 
-  const [reaction, setReaction] = useState("");
-
-  useEffect(() => {
+  const onReactionClick = (reaction) => {
     if (reaction.trim() !== "") {
       dispatch({
         type: postsActionTypes.UPDATE_POST_REQUEST,
@@ -28,18 +26,11 @@ const PostBottomSection = ({ postId, reactions, comments }) => {
         },
       });
     }
-  }, [reaction]);
+  };
 
   return (
-    <Grid
-      container
-      item
-      xs={12}
-      justifyContent="space-between"
-      alignItems="center"
-      className={classes.sectionContainer}
-    >
-      <ReactionsSection reactions={reactions} setReaction={setReaction} />
+    <Grid container item xs={12} justifyContent="space-between" alignItems="flex-start" className={classes.sectionContainer}>
+      <ReactionsSection reactions={reactions} onReactionClick={onReactionClick} />
       <CommentsSection comments={comments} />
     </Grid>
   );

@@ -18,7 +18,6 @@ const styles = makeStyles({
     zIndex: 999,
   },
   innerContainer: {
-    height: "80%",
     backgroundColor: "white",
     boxShadow: "0px 0px 5px 3px #00000036",
     borderRadius: "5px",
@@ -29,9 +28,8 @@ const styles = makeStyles({
     position: "relative",
   },
   imageUploaded: {
-    // objectFit: "cover",
-    width: "350px",
-    height: "350px",
+    width: "250px",
+    height: "250px",
   },
   chip: {
     marginRight: "10px",
@@ -44,6 +42,9 @@ const styles = makeStyles({
     top: 0,
     right: 0,
   },
+  modalInputsSection: {
+    padding: "30px",
+  },
 });
 
 const resizeFile = (file) =>
@@ -53,7 +54,7 @@ const resizeFile = (file) =>
       300,
       400,
       "PNG",
-      80,
+      30,
       0,
       (uri) => {
         resolve(uri);
@@ -73,8 +74,8 @@ const UploadSection = () => {
   const [tags, setTags] = useState([]);
 
   const onTitleChange = (event) => {
-    const trimmedTitle = event.target.value.trim();
-    setTitle(trimmedTitle);
+    const title = event.target.value;
+    setTitle(title);
   };
 
   const onImageUpload = async (event) => {
@@ -122,10 +123,12 @@ const UploadSection = () => {
   };
 
   const onDoneClick = () => {
-    dispatch({
-      type: postsActionTypes.ADD_POST_REQUEST,
-      payload: { title, image: imageForUpload, tags },
-    });
+    if (title.trim() !== "" && imageForUpload) {
+      dispatch({
+        type: postsActionTypes.ADD_POST_REQUEST,
+        payload: { title, image: imageForUpload, tags },
+      });
+    }
   };
 
   return (
@@ -147,24 +150,14 @@ const UploadSection = () => {
         alignItems="space-between"
         onClick={(e) => e.stopPropagation()}
       >
-        <Grid container item>
+        <Grid container item spacing={4} className={classes.modalInputsSection}>
           <Grid item xs={12}>
-            <TextField
-              id="outlined-basic"
-              value={title}
-              onChange={onTitleChange}
-              variant="standard"
-              multiline
-              rows={4}
-              label="Describe the meme"
-              fullWidth
-            />
+            <TextField value={title} onChange={onTitleChange} variant="outlined" label="Describe the meme" fullWidth />
           </Grid>
 
           <Grid item xs={12}>
             <TextField
-              id="outlined-basic1"
-              variant="standard"
+              variant="outlined"
               label="Tags separated by enter (up to 5)"
               fullWidth
               value={tagsInputValue}
@@ -173,75 +166,49 @@ const UploadSection = () => {
             />
           </Grid>
 
-          <Grid item container xs={12}>
-            {tags.map((tag, index) => (
-              <Grid item key={index}>
-                <Chip
-                  className={classes.chip}
-                  label={tag}
-                  onDelete={() => {
-                    onTagDelete(tag);
-                  }}
-                />
-              </Grid>
-            ))}
-          </Grid>
+          {tags.length > 0 && (
+            <Grid item container xs={12}>
+              {tags.map((tag, index) => (
+                <Grid item key={index}>
+                  <Chip
+                    className={classes.chip}
+                    label={tag}
+                    onDelete={() => {
+                      onTagDelete(tag);
+                    }}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          )}
 
           {imageForDisplay ? (
             <Grid item xs={12} className={classes.imageUploadedContainer}>
-              <img
-                src={imageForDisplay}
-                className={classes.imageUploaded}
-                alt=""
-              />
+              <img src={imageForDisplay} className={classes.imageUploaded} alt="" />
 
-              <ContainerButton
-                component="label"
-                onClick={onImageDelete}
-                className={classes.removeImageButton}
-              >
+              <ContainerButton component="label" onClick={onImageDelete} className={classes.removeImageButton}>
                 <CircularCancelIcon />
               </ContainerButton>
             </Grid>
           ) : (
             <Grid item xs={12}>
               <ContainerButton component="label" variant="outlined">
-                Click here or drop an image
-                <input
-                  type="file"
-                  hidden
-                  onChange={onImageUpload}
-                  accept=".png, .jpg"
-                />
+                Upload image
+                <input type="file" hidden onChange={onImageUpload} accept=".png, .jpg" />
               </ContainerButton>
             </Grid>
           )}
         </Grid>
 
-        <Grid
-          item
-          container
-          xs={12}
-          justifyContent="flex-end"
-          alignItems="flex-end"
-          spacing={3}
-        >
+        <Grid item container xs={12} justifyContent="flex-end" alignItems="flex-end" spacing={3}>
           <Grid item xs={2}>
-            <ContainerButton
-              component="label"
-              variant="outlined"
-              onClick={onCloseUploadSection}
-            >
+            <ContainerButton component="label" variant="outlined" onClick={onCloseUploadSection}>
               Cancel
             </ContainerButton>
           </Grid>
 
           <Grid item xs={2}>
-            <ContainerButton
-              component="label"
-              variant="outlined"
-              onClick={onDoneClick}
-            >
+            <ContainerButton component="label" variant="outlined" onClick={onDoneClick}>
               Done
             </ContainerButton>
           </Grid>
