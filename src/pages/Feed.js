@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import PostPopup from "../components/common/PostPopup";
+import PostsSection from "../components/post/PostsSection";
 import postsActionTypes from "../redux/actionTypes/postsActionTypes";
 import { postsSelector } from "../redux/selectors";
-import PostsSection from "../components/post/PostsSection";
 
 const styles = makeStyles({
   container: {
@@ -25,7 +27,10 @@ const Feed = () => {
     <Grid container className={classes.container}>
       <Grid container item xs={12} justifyContent="center" alignItems="center">
         <Grid item xs={12}>
-          <PostsSection posts={posts} />
+          <Routes>
+            <Route exact path="/" element={<PostsSection posts={posts} />} />
+            <Route exact path="/post/:postId" element={<PostPopup />} />
+          </Routes>
         </Grid>
       </Grid>
     </Grid>

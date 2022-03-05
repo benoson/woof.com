@@ -9,6 +9,7 @@ import appActionTypes from "../../redux/actionTypes/appActionTypes";
 import { ReactComponent as CircularCancelIcon } from "../../assets/svgs/circular_cancel_icon.svg";
 import postsActionTypes from "../../redux/actionTypes/postsActionTypes";
 import Resizer from "react-image-file-resizer";
+import Typography from "@mui/material/Typography";
 
 const styles = makeStyles({
   container: {
@@ -150,9 +151,18 @@ const UploadSection = () => {
         alignItems="space-between"
         onClick={(e) => e.stopPropagation()}
       >
+        <Grid item>
+          <Typography variant="h5">Upload a dank meme</Typography>
+        </Grid>
         <Grid container item spacing={4} className={classes.modalInputsSection}>
           <Grid item xs={12}>
-            <TextField value={title} onChange={onTitleChange} variant="outlined" label="Describe the meme" fullWidth />
+            <TextField
+              value={title}
+              onChange={onTitleChange}
+              variant="outlined"
+              label="Describe the meme"
+              fullWidth
+            />
           </Grid>
 
           <Grid item xs={12}>
@@ -184,9 +194,17 @@ const UploadSection = () => {
 
           {imageForDisplay ? (
             <Grid item xs={12} className={classes.imageUploadedContainer}>
-              <img src={imageForDisplay} className={classes.imageUploaded} alt="" />
+              <img
+                src={imageForDisplay}
+                className={classes.imageUploaded}
+                alt=""
+              />
 
-              <ContainerButton component="label" onClick={onImageDelete} className={classes.removeImageButton}>
+              <ContainerButton
+                component="label"
+                onClick={onImageDelete}
+                className={classes.removeImageButton}
+              >
                 <CircularCancelIcon />
               </ContainerButton>
             </Grid>
@@ -194,21 +212,41 @@ const UploadSection = () => {
             <Grid item xs={12}>
               <ContainerButton component="label" variant="outlined">
                 Upload image
-                <input type="file" hidden onChange={onImageUpload} accept=".png, .jpg" />
+                <input
+                  type="file"
+                  hidden
+                  onChange={onImageUpload}
+                  accept=".png, .jpg"
+                />
               </ContainerButton>
             </Grid>
           )}
         </Grid>
 
-        <Grid item container xs={12} justifyContent="flex-end" alignItems="flex-end" spacing={3}>
+        <Grid
+          item
+          container
+          xs={12}
+          justifyContent="flex-end"
+          alignItems="flex-end"
+          spacing={3}
+        >
           <Grid item xs={2}>
-            <ContainerButton component="label" variant="outlined" onClick={onCloseUploadSection}>
+            <ContainerButton
+              component="label"
+              variant="outlined"
+              onClick={onCloseUploadSection}
+            >
               Cancel
             </ContainerButton>
           </Grid>
 
           <Grid item xs={2}>
-            <ContainerButton component="label" variant="outlined" onClick={onDoneClick}>
+            <ContainerButton
+              component="label"
+              variant="outlined"
+              onClick={onDoneClick}
+            >
               Done
             </ContainerButton>
           </Grid>

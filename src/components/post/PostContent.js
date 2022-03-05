@@ -12,6 +12,7 @@ const styles = makeStyles({
     maxHeight: "350px",
     boxShadow: "0px 0px 10px 0px #00000033",
     borderRadius: "5px",
+    cursor: "pointer",
   },
 });
 
@@ -24,7 +25,14 @@ const PostContent = ({ postId, image }) => {
   };
 
   return (
-    <Grid container item xs={12} justifyContent="flex-start" alignItems="center" onClick={onPostContentClicked}>
+    <Grid
+      container
+      item
+      xs={12}
+      justifyContent="flex-start"
+      alignItems="center"
+      onClick={onPostContentClicked}
+    >
       <Grid item xs={12} className={classes.postImageContainer}>
         <img src={image} alt="" className={classes.postImage} />
       </Grid>

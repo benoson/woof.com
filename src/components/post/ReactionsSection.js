@@ -66,7 +66,7 @@ const ReactionsSection = ({ reactions, onReactionClick }) => {
         <Tooltip title={reactionData.name} key={index}>
           <Grid
             item
-            xs={1}
+            xs={1.2}
             className={reactionData.name === userFromState.userName ? emojiSelectedContainerStyle : emojiContainerStyle}
             onClick={() => {
               onExistingReactionClick(reactionData.name === userFromState.userName, reactionData.reaction);
@@ -77,7 +77,7 @@ const ReactionsSection = ({ reactions, onReactionClick }) => {
         </Tooltip>
       ))}
 
-      <Grid item xs={1} className={classes.addReactionTooltipContainer}>
+      <Grid item xs={1.2} className={classes.addReactionTooltipContainer}>
         <LightTooltip title={<Reactions setReaction={onReactionClick} />}>
           <div className={classes.addReactionTooltipContent}>
             <img className={classes.emoji} src={AddReactionIcon} alt="" />

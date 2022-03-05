@@ -16,7 +16,7 @@ const PostsSection = ({ posts }) => {
       alignItems="center"
       flexDirection="column"
     >
-      <Grid item container xs={5} rowGap={6}>
+      <Grid item container xs={4} rowGap={6}>
         {Object.values(posts).map((post) => (
           <Post key={post._id} post={post} />
         ))}

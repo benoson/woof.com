@@ -108,7 +108,14 @@ const Navbar = () => {
 
   return (
     <Grid container item xs={12} className={classes.container}>
-      <Grid container item xs={4} alignItems="flex-end" className={classes.innerContainer} columnGap={4}>
+      <Grid
+        container
+        item
+        xs={4}
+        alignItems="flex-end"
+        className={classes.innerContainer}
+        columnGap={4}
+      >
         <Grid item xs={1}>
           <Popover
             open={isPopoverOpen}
@@ -119,7 +126,12 @@ const Navbar = () => {
             <NavbarDropDown userName={userFromState.userName} />
           </Popover>
 
-          <NavbarItem main img={userFromState.profileImage} rounded onClick={assignAnchorElement} />
+          <NavbarItem
+            main
+            img={userFromState.profileImage}
+            rounded
+            onClick={assignAnchorElement}
+          />
         </Grid>
 
         <Grid item xs={1}>
@@ -139,12 +151,18 @@ const Navbar = () => {
         </Grid>
       </Grid>
 
-      <Grid container item xs={4} alignItems="center" className={classes.innerContainer} columnGap={1}>
+      <Grid
+        container
+        item
+        xs={4}
+        alignItems="center"
+        className={classes.innerContainer}
+        columnGap={1}
+      >
         <Grid item container xs={12} className={classes.searchContainer}>
           <TextField
             placeholder="Search people"
             InputProps={{
-              autoFocus: true,
               startAdornment: (
                 <InputAdornment position="start">
                   <SearchIcon />
@@ -161,19 +179,39 @@ const Navbar = () => {
           />
 
           {searchResults.length > 0 && (
-            <Grid container item direction="column" className={classes.searchResultsContainer}>
+            <Grid
+              container
+              item
+              direction="column"
+              className={classes.searchResultsContainer}
+            >
               {searchResults.map((user, index) => (
-                <Grid item container key={index} justifyContent="space-between" alignItems="center" className={classes.resultBox}>
+                <Grid
+                  item
+                  container
+                  key={index}
+                  justifyContent="space-between"
+                  alignItems="center"
+                  className={classes.resultBox}
+                >
                   <Grid item container xs={6} alignItems="center" columnGap={2}>
                     <Grid item>
-                      <img src={user.image} className={classes.userResultImage} alt="" />
+                      <img
+                        src={user.image}
+                        className={classes.userResultImage}
+                        alt=""
+                      />
                     </Grid>
 
                     <Grid item>{user.name}</Grid>
                   </Grid>
 
                   <Grid item>
-                    <img src={AddCircularIcon} className={classes.addFriendButton} alt="" />
+                    <img
+                      src={AddCircularIcon}
+                      className={classes.addFriendButton}
+                      alt=""
+                    />
                   </Grid>
                 </Grid>
               ))}
