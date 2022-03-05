@@ -4,13 +4,20 @@ import Grid from "@mui/material/Grid";
 import Pepe from "../../../assets/images/pepe.jpg";
 
 const styles = makeStyles({
-  img: {
-    width: "100px",
-    animation: "$loading-animation 1.2s infinite",
+  imgContainer: {
+    backgroundColor: "white",
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+    height: "30%",
+    boxShadow: "0px 0px 10px 0px #0000003b",
+    zIndex: 999,
+    borderRadius: "20px",
+  },
+  img: {
+    width: "100px",
+    animation: "$loading-animation 1.2s infinite",
   },
   "@keyframes loading-animation": {
     "0%": {
@@ -26,7 +33,7 @@ const LoadingIcon = () => {
   const classes = styles();
 
   return (
-    <Grid container justifyContent="center" alignItems="center">
+    <Grid item container xs={3} justifyContent="center" alignItems="center" className={classes.imgContainer}>
       <img src={Pepe} className={classes.img} alt="" />
     </Grid>
   );

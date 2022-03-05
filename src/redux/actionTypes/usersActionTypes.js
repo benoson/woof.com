@@ -8,6 +8,10 @@ const usersActionTypes = {
   LOGIN_FAIL: "login.fail",
 
   LOGOUT: "logout",
+
+  ADD_FRIEND_REQUEST: "add.friend.request",
+  ADD_FRIEND_SUCCESS: "add.friend.success",
+  ADD_FRIEND_FAIL: "add.friend.fail",
 };
 
 export default usersActionTypes;

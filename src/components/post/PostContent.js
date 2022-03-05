@@ -25,14 +25,7 @@ const PostContent = ({ postId, image }) => {
   };
 
   return (
-    <Grid
-      container
-      item
-      xs={12}
-      justifyContent="flex-start"
-      alignItems="center"
-      onClick={onPostContentClicked}
-    >
+    <Grid container item xs={12} justifyContent="flex-start" alignItems="center" onClick={onPostContentClicked}>
       <Grid item xs={12} className={classes.postImageContainer}>
         <img src={image} alt="" className={classes.postImage} />
       </Grid>

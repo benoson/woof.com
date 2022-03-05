@@ -2,13 +2,10 @@ import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 
 import combineReducers from "./reducers/combineReducers";
-import postSagas from "./sagas";
+import combinedSagas from "./sagas/combinedSagas";
 
 const sagaMiddleware = createSagaMiddleware();
 
-export const store = createStore(
-  combineReducers,
-  applyMiddleware(sagaMiddleware)
-);
+export const store = createStore(combineReducers, applyMiddleware(sagaMiddleware));
 
-sagaMiddleware.run(postSagas);
+sagaMiddleware.run(combinedSagas);

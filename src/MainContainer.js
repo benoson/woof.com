@@ -1,23 +1,16 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import AuthenticatedRoute from "./components/common/AuthenticatedRoute";
 import LoadingIcon from "./components/common/ui/LoadingIcon";
 import UploadSection from "./components/common/UploadSection";
 import Navbar from "./components/navbar/Navbar";
 import Feed from "./pages/Feed";
 import RegisterOrLogin from "./pages/RegisterOrLogin";
-import {
-  shouldDisplayUploadSectionSelector,
-  userLoadingSelector,
-  userSelector,
-} from "./redux/selectors";
+import { shouldDisplayUploadSectionSelector, userLoadingSelector, userSelector } from "./redux/selectors";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MainContainer = () => {
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
@@ -36,7 +29,7 @@ const MainContainer = () => {
         <Routes>
           <Route
             exact
-            path="/"
+            path="*"
             element={
               <AuthenticatedRoute>
                 <Feed />
@@ -48,6 +41,8 @@ const MainContainer = () => {
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
+
+      <ToastContainer />
     </Grid>
   );
 };

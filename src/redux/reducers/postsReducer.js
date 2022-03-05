@@ -48,6 +48,17 @@ const postsReducer = (state = defaultState, action) => {
         error: null,
       };
 
+    case postsActionTypes.DELETE_POST_SUCCESS:
+      const deletedPost = action.payload;
+      const allPostsAfterDeletion = { ...state.feedPosts };
+      delete allPostsAfterDeletion[deletedPost._id];
+
+      return {
+        ...state,
+        feedPosts: allPostsAfterDeletion,
+        error: null,
+      };
+
     default:
       return state;
   }

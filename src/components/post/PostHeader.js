@@ -5,8 +5,10 @@ import { makeStyles } from "@mui/styles";
 import Popover from "@mui/material/Popover";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userSelector } from "../../redux/selectors";
+import { toast } from "react-toastify";
+import postsActionTypes from "../../redux/actionTypes/postsActionTypes";
 
 const styles = makeStyles({
   authorImg: {
@@ -28,11 +30,11 @@ const styles = makeStyles({
   },
 });
 
-const PostHeader = ({ authorImg, authorName, timeOfCreation }) => {
+const PostHeader = ({ authorImg, authorName, timeOfCreation, postId }) => {
   const classes = styles();
+  const dispatch = useDispatch();
 
   const userFromState = useSelector(userSelector);
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const assignAnchorElement = (event) => {
@@ -41,6 +43,25 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation }) => {
 
   const unAssignAnchorElement = () => {
     setAnchorEl(null);
+  };
+
+  const onCopyLinkButtonClick = () => {
+    const postLink = `/localhost:3000/post/${postId}`;
+    navigator.clipboard.writeText(postLink);
+    unAssignAnchorElement();
+    toast.success("🦄 Copied!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  const onDeletePostClick = () => {
+    dispatch({ type: postsActionTypes.DELETE_POST_REQUEST, payload: { postId } });
   };
 
   const isPopoverOpen = Boolean(anchorEl);
@@ -65,10 +86,12 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation }) => {
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
           <List>
-            <ListItem button>Copy link</ListItem>
+            <ListItem button onClick={onCopyLinkButtonClick}>
+              Copy link
+            </ListItem>
 
             {userFromState.userName === authorName && (
-              <ListItem button className={classes.redText}>
+              <ListItem button className={classes.redText} onClick={onDeletePostClick}>
                 Delete post
               </ListItem>
             )}

@@ -15,14 +15,10 @@ const Post = ({ post }) => {
 
   return (
     <Grid container item xs={12}>
-      <PostHeader authorImg={author.image} authorName={author.name} timeOfCreation={timeOfCreation} />
-
+      <PostHeader authorImg={author.image} authorName={author.name} timeOfCreation={timeOfCreation} postId={_id} />
       <PostSubHeader title={title} />
-
       <PostTagsSection tags={tags} />
-
       <PostContent image={image} postId={_id} />
-
       <PostBottomSection reactions={postSelector.reactions} comments={postSelector.comments} postId={_id} />
     </Grid>
   );

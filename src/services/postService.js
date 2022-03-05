@@ -22,3 +22,11 @@ export const updatePost = async (postId, data) => {
     console.error(`Error updating post ${postId}:`, error);
   }
 };
+
+export const deletePost = async (postId) => {
+  try {
+    return await axios.delete(`${serverUrl}/posts/${postId}`);
+  } catch (error) {
+    console.error(`Error deleting post ${postId}:`, error);
+  }
+};

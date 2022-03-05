@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import AddCircularIcon from "../../assets/svgs/add_circular_icon.svg";
 import chatIcon from "../../assets/svgs/chat_icon.svg";
 import homeIcon from "../../assets/svgs/home_icon.svg";
@@ -15,6 +16,7 @@ import { userSelector } from "../../redux/selectors";
 import * as userService from "../../services/userService";
 import NavbarDropDown from "./NavbarDropDown";
 import NavbarItem from "./NavbarItem";
+import usersActionTypes from "../../redux/actionTypes/usersActionTypes";
 
 const styles = makeStyles({
   container: {
@@ -45,9 +47,6 @@ const styles = makeStyles({
     padding: "5px 15px",
     cursor: "pointer",
     color: "white",
-    "&:hover": {
-      // backgroundColor: "white",
-    },
   },
   userResultImage: {
     width: "40px",
@@ -55,14 +54,13 @@ const styles = makeStyles({
     borderRadius: "50%",
     objectFit: "cover",
   },
-  addFriendButton: {
-    // width
-  },
 });
 
 const Navbar = () => {
   const classes = styles();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const userFromState = useSelector(userSelector);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -90,10 +88,18 @@ const Navbar = () => {
     setSearchResults([]);
   };
 
+  const onHomeButtonClick = () => {
+    navigate("/");
+  };
+
+  const onAddFriendClick = (user) => {
+    dispatch({ type: usersActionTypes.ADD_FRIEND_REQUEST, payload: { userName: user.name } });
+  };
+
   useEffect(() => {
     if (searchValue.trim() !== "") {
       const getSearchResults = async () => {
-        const searchResults = await userService.getSearchResults(searchValue);
+        const searchResults = await userService.getUsersSearchResults(searchValue);
         setSearchResults(searchResults);
       };
 
@@ -108,14 +114,7 @@ const Navbar = () => {
 
   return (
     <Grid container item xs={12} className={classes.container}>
-      <Grid
-        container
-        item
-        xs={4}
-        alignItems="flex-end"
-        className={classes.innerContainer}
-        columnGap={4}
-      >
+      <Grid container item xs={4} alignItems="flex-end" className={classes.innerContainer} columnGap={4}>
         <Grid item xs={1}>
           <Popover
             open={isPopoverOpen}
@@ -126,15 +125,10 @@ const Navbar = () => {
             <NavbarDropDown userName={userFromState.userName} />
           </Popover>
 
-          <NavbarItem
-            main
-            img={userFromState.profileImage}
-            rounded
-            onClick={assignAnchorElement}
-          />
+          <NavbarItem main img={userFromState.profileImage} rounded onClick={assignAnchorElement} />
         </Grid>
 
-        <Grid item xs={1}>
+        <Grid item xs={1} onClick={onHomeButtonClick}>
           <NavbarItem img={homeIcon} />
         </Grid>
 
@@ -151,14 +145,7 @@ const Navbar = () => {
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        item
-        xs={4}
-        alignItems="center"
-        className={classes.innerContainer}
-        columnGap={1}
-      >
+      <Grid container item xs={4} alignItems="center" className={classes.innerContainer} columnGap={1}>
         <Grid item container xs={12} className={classes.searchContainer}>
           <TextField
             placeholder="Search people"
@@ -175,43 +162,28 @@ const Navbar = () => {
               onSearchValueChange(e);
             }}
             variant="outlined"
-            onBlur={onSearchFieldOutOfFocus}
+            // onBlur={onSearchFieldOutOfFocus}
           />
 
           {searchResults.length > 0 && (
-            <Grid
-              container
-              item
-              direction="column"
-              className={classes.searchResultsContainer}
-            >
+            <Grid container item direction="column" className={classes.searchResultsContainer}>
               {searchResults.map((user, index) => (
-                <Grid
-                  item
-                  container
-                  key={index}
-                  justifyContent="space-between"
-                  alignItems="center"
-                  className={classes.resultBox}
-                >
+                <Grid item container key={index} justifyContent="space-between" alignItems="center" className={classes.resultBox}>
                   <Grid item container xs={6} alignItems="center" columnGap={2}>
                     <Grid item>
-                      <img
-                        src={user.image}
-                        className={classes.userResultImage}
-                        alt=""
-                      />
+                      <img src={user.image} className={classes.userResultImage} alt="" />
                     </Grid>
 
                     <Grid item>{user.name}</Grid>
                   </Grid>
 
-                  <Grid item>
-                    <img
-                      src={AddCircularIcon}
-                      className={classes.addFriendButton}
-                      alt=""
-                    />
+                  <Grid
+                    item
+                    onClick={() => {
+                      onAddFriendClick(user);
+                    }}
+                  >
+                    <img src={AddCircularIcon} alt="" />
                   </Grid>
                 </Grid>
               ))}

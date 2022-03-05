@@ -55,6 +55,14 @@ const userReducer = (state = defaultState, action) => {
         loading: false,
       };
 
+    case usersActionTypes.LOGIN_FAIL:
+      const error = action.payload;
+      return {
+        ...state,
+        error,
+        loading: false,
+      };
+
     case usersActionTypes.LOGOUT:
       handleLogout();
       return {
@@ -66,6 +74,14 @@ const userReducer = (state = defaultState, action) => {
           isLogged: false,
         },
         error: null,
+      };
+
+    case usersActionTypes.ADD_FRIEND_SUCCESS:
+      const { friend } = action.payload;
+      return {
+        ...state,
+        error: null,
+        loading: false,
       };
 
     default:
