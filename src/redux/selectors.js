@@ -2,6 +2,14 @@ export const postsSelector = (state) => {
   return state.posts.feedPosts;
 };
 
+export const filteredPostsSelector = (state) => {
+  return state.posts.filteredPosts;
+};
+
+export const filteredKeywordSelector = (state) => {
+  return state.posts.filteredKeyword;
+};
+
 export const shouldDisplayUploadSectionSelector = (state) => {
   return state.app.isShowUploadSection;
 };

@@ -1,6 +1,8 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
 import { Grid, Chip } from "@mui/material";
+import { useDispatch } from "react-redux";
+import postsActionTypes from "../../redux/actionTypes/postsActionTypes";
 
 const styles = makeStyles({
   sectionContainer: {
@@ -13,6 +15,11 @@ const styles = makeStyles({
 
 const PostTagsSection = ({ tags }) => {
   const classes = styles();
+  const dispatch = useDispatch();
+
+  const onTagClick = (tag) => {
+    dispatch({ type: postsActionTypes.FILTER_POSTS, payload: tag });
+  };
 
   return (
     <Grid
@@ -24,7 +31,13 @@ const PostTagsSection = ({ tags }) => {
     >
       {tags?.map((tag, index) => (
         <Grid item key={index}>
-          <Chip className={classes.chip} label={tag} />
+          <Chip
+            className={classes.chip}
+            label={tag}
+            onClick={() => {
+              onTagClick(tag);
+            }}
+          />
         </Grid>
       ))}
     </Grid>

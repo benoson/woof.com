@@ -5,8 +5,15 @@ import usersActionTypes from "../actionTypes/usersActionTypes";
 
 function* register(action) {
   try {
-    const { userName, profileImage, password, confirmPassword, navigate } = action.payload;
-    const userRegisterDataFromServer = yield call(userService.register, userName, profileImage, password, confirmPassword);
+    const { userName, profileImage, password, confirmPassword, navigate } =
+      action.payload;
+    const userRegisterDataFromServer = yield call(
+      userService.register,
+      userName,
+      profileImage,
+      password,
+      confirmPassword
+    );
     yield put({
       type: usersActionTypes.REGISTER_SUCCESS,
       payload: {
@@ -15,7 +22,7 @@ function* register(action) {
     });
 
     toast.success("🤡 Nice to have you!", {
-      position: "top-right",
+      position: "bottom-left",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -37,7 +44,11 @@ export function* registerListener() {
 function* login(action) {
   try {
     const { userName, password, navigate } = action.payload;
-    const userLoginDataFromServer = yield call(userService.login, userName, password);
+    const userLoginDataFromServer = yield call(
+      userService.login,
+      userName,
+      password
+    );
 
     yield put({
       type: usersActionTypes.LOGIN_SUCCESS,
@@ -47,7 +58,7 @@ function* login(action) {
     });
 
     toast.success("🤖 Welcome back!", {
-      position: "top-right",
+      position: "bottom-left",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -60,7 +71,7 @@ function* login(action) {
   } catch (error) {
     yield put({ type: usersActionTypes.LOGIN_FAIL, payload: error });
     toast.error("🤔 Can't find that user", {
-      position: "top-right",
+      position: "bottom-left",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -88,7 +99,7 @@ function* addFriend(action) {
     });
 
     toast.success("🧜‍♂️ Friend request sent!", {
-      position: "top-right",
+      position: "bottom-left",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -100,7 +111,7 @@ function* addFriend(action) {
     console.log("----", error);
     yield put({ type: usersActionTypes.ADD_FRIEND_FAIL, payload: error });
     toast.error("🤔 Can't find that user", {
-      position: "top-right",
+      position: "bottom-left",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,

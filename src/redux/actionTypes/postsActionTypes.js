@@ -14,6 +14,9 @@ const postsActionTypes = {
   DELETE_POST_REQUEST: "delete.post.request",
   DELETE_POST_SUCCESS: "delete.post.success",
   DELETE_POST_FAIL: "delete.post.fail",
+
+  FILTER_POSTS: "filter.posts",
+  CLEAR_FILTERED_POSTS: "clear.filtered.posts",
 };
 
 export default postsActionTypes;

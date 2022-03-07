@@ -50,7 +50,7 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation, postId }) => {
     navigator.clipboard.writeText(postLink);
     unAssignAnchorElement();
     toast.success("🦄 Copied!", {
-      position: "top-right",
+      position: "bottom-left",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -61,13 +61,22 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation, postId }) => {
   };
 
   const onDeletePostClick = () => {
-    dispatch({ type: postsActionTypes.DELETE_POST_REQUEST, payload: { postId } });
+    dispatch({
+      type: postsActionTypes.DELETE_POST_REQUEST,
+      payload: { postId },
+    });
   };
 
   const isPopoverOpen = Boolean(anchorEl);
 
   return (
-    <Grid container item xs={12} justifyContent="space-between" alignItems="center">
+    <Grid
+      container
+      item
+      xs={12}
+      justifyContent="space-between"
+      alignItems="center"
+    >
       <Grid container item xs={6} alignItems="center" spacing={1}>
         <Grid item>
           <img src={authorImg} alt="" className={classes.authorImg} />
@@ -78,7 +87,12 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation, postId }) => {
       </Grid>
 
       <Grid container item xs={6} justifyContent="flex-end">
-        <img alt="" src={moreIcon} className={classes.moreIcon} onClick={assignAnchorElement} />
+        <img
+          alt=""
+          src={moreIcon}
+          className={classes.moreIcon}
+          onClick={assignAnchorElement}
+        />
         <Popover
           open={isPopoverOpen}
           anchorEl={anchorEl}
@@ -91,7 +105,11 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation, postId }) => {
             </ListItem>
 
             {userFromState.userName === authorName && (
-              <ListItem button className={classes.redText} onClick={onDeletePostClick}>
+              <ListItem
+                button
+                className={classes.redText}
+                onClick={onDeletePostClick}
+              >
                 Delete post
               </ListItem>
             )}

@@ -72,7 +72,7 @@ function* deletePost(action) {
     });
 
     toast.success("💩 Deleted!", {
-      position: "top-right",
+      position: "bottom-left",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
