@@ -1,16 +1,26 @@
-import { Grid } from "@mui/material";
 import React from "react";
+import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import AuthenticatedRoute from "./components/common/AuthenticatedRoute";
 import LoadingIcon from "./components/common/ui/LoadingIcon";
 import UploadSection from "./components/common/UploadSection";
 import Navbar from "./components/navbar/Navbar";
 import Feed from "./pages/Feed";
 import RegisterOrLogin from "./pages/RegisterOrLogin";
-import { shouldDisplayUploadSectionSelector, userLoadingSelector, userSelector } from "./redux/selectors";
+import {
+  shouldDisplayUploadSectionSelector,
+  userLoadingSelector,
+  userSelector,
+} from "./redux/selectors";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Profile from "./pages/Profile";
 
 const MainContainer = () => {
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
@@ -33,6 +43,16 @@ const MainContainer = () => {
             element={
               <AuthenticatedRoute>
                 <Feed />
+              </AuthenticatedRoute>
+            }
+          />
+
+          <Route
+            exact
+            path="/profile/:userName"
+            element={
+              <AuthenticatedRoute>
+                <Profile />
               </AuthenticatedRoute>
             }
           />
