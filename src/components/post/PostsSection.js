@@ -17,7 +17,12 @@ const styles = makeStyles({
   },
 });
 
-const PostsSection = ({ posts, filteredPosts, filteredKeyword }) => {
+const PostsSection = ({
+  posts,
+  filteredPosts,
+  filteredKeyword,
+  sectionSize = 4,
+}) => {
   const classes = styles();
   const dispatch = useDispatch();
 
@@ -40,7 +45,7 @@ const PostsSection = ({ posts, filteredPosts, filteredKeyword }) => {
           <Grid
             item
             container
-            xs={4}
+            xs={sectionSize}
             spacing={1}
             direction="column"
             className={classes.showingFilteredResultsHeader}
@@ -63,7 +68,7 @@ const PostsSection = ({ posts, filteredPosts, filteredKeyword }) => {
         alignItems="center"
         flexDirection="column"
       >
-        <Grid item container xs={4} rowGap={6}>
+        <Grid item container xs={sectionSize} rowGap={6}>
           {postsToShow.length > 0 ? (
             postsToShow.map((post) => <Post key={post._id} post={post} />)
           ) : (

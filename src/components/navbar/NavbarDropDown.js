@@ -6,6 +6,7 @@ import userActionTypes from "../../redux/actionTypes/usersActionTypes";
 import { useNavigate } from "react-router-dom";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import { Divider } from "@mui/material";
 
 const styles = makeStyles({
   redText: {
@@ -23,10 +24,18 @@ const NavbarDropDown = ({ userName }) => {
     navigate("/login");
   };
 
+  const onUsernameClick = () => {
+    navigate(`profile/${userName}`);
+  };
+
   return (
     <Grid container>
       <List>
-        <ListItem>{userName}</ListItem>
+        <ListItem button onClick={onUsernameClick}>
+          {userName}
+        </ListItem>
+
+        <Divider />
 
         <ListItem button onClick={onLogoutClick} className={classes.redText}>
           Logout

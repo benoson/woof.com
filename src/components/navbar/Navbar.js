@@ -82,6 +82,24 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearchResultsBoxOpen, setIsSearchResultsBoxOpen] = useState(false);
 
+  useEffect(() => {
+    if (searchValue.trim() !== "") {
+      const getSearchResults = async () => {
+        const searchResults = await userService.getUsersSearchResults(
+          searchValue
+        );
+        setSearchResults(searchResults);
+        setIsSearchResultsBoxOpen(true);
+      };
+
+      getSearchResults();
+    } else {
+      unAssignAnchorElement();
+      setSearchResults([]);
+      setIsSearchResultsBoxOpen(false);
+    }
+  }, [searchValue]);
+
   const assignAnchorElement = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -108,30 +126,19 @@ const Navbar = () => {
     navigate("/");
   };
 
-  const onAddFriendClick = (user) => {
+  const onAddFriendClick = (event, user) => {
+    event.stopPropagation();
     dispatch({
       type: usersActionTypes.ADD_FRIEND_REQUEST,
       payload: { userName: user.name },
     });
   };
 
-  useEffect(() => {
-    if (searchValue.trim() !== "") {
-      const getSearchResults = async () => {
-        const searchResults = await userService.getUsersSearchResults(
-          searchValue
-        );
-        setSearchResults(searchResults);
-        setIsSearchResultsBoxOpen(true);
-      };
-
-      getSearchResults();
-    } else {
-      unAssignAnchorElement();
-      setSearchResults([]);
-      setIsSearchResultsBoxOpen(false);
-    }
-  }, [searchValue]);
+  const onFriendClick = (friendName) => {
+    setSearchResults([]);
+    setIsSearchResultsBoxOpen(false);
+    navigate(`/profile/${friendName}`);
+  };
 
   const isPopoverOpen = Boolean(anchorEl);
 
@@ -218,7 +225,12 @@ const Navbar = () => {
             <List className={classes.searchResultsContainer}>
               {searchResults.map((user, index) => (
                 <>
-                  <ListItem button>
+                  <ListItem
+                    button
+                    onClick={() => {
+                      onFriendClick(user.name);
+                    }}
+                  >
                     <Grid
                       item
                       container
@@ -249,8 +261,8 @@ const Navbar = () => {
 
                       <Grid
                         item
-                        onClick={() => {
-                          onAddFriendClick(user);
+                        onClick={(event) => {
+                          onAddFriendClick(event, user);
                         }}
                       >
                         <Button disableElevation disableRipple variant="filled">

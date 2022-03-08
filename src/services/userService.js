@@ -3,7 +3,12 @@ import * as config from "../config";
 
 const serverUrl = config.serverConfig.serverUrl;
 
-export const register = async (userName, profileImage, password, confirmPassword) => {
+export const register = async (
+  userName,
+  profileImage,
+  password,
+  confirmPassword
+) => {
   try {
     const registerRes = await axios.post(`${serverUrl}/users`, {
       userName,
@@ -33,18 +38,33 @@ export const login = async (userName, password) => {
 
 export const getUsersSearchResults = async (searchTerm) => {
   try {
-    const searchRes = await axios.get(`${serverUrl}/users/search/${searchTerm}`);
+    const searchRes = await axios.get(
+      `${serverUrl}/users/search/${searchTerm}`
+    );
     return searchRes.data;
   } catch (error) {
-    console.error("Error trying to login:", error);
+    console.error("Error trying to get search results:", error);
   }
 };
 
 export const addFriend = async (friendName) => {
   try {
-    const addFriendRes = await axios.post(`${serverUrl}/users/add-friend/${friendName}`);
+    const addFriendRes = await axios.post(
+      `${serverUrl}/users/add-friend/${friendName}`
+    );
     return addFriendRes.data;
   } catch (error) {
-    console.error("Error trying to login:", error);
+    console.error("Error trying to add friend:", error);
+  }
+};
+
+export const getUserProfileData = async (userName) => {
+  try {
+    const userProfileData = await axios.get(
+      `${serverUrl}/users/profile-data/${userName}`
+    );
+    return userProfileData.data;
+  } catch (error) {
+    console.error("Error trying to get user profile data:", error);
   }
 };
