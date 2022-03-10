@@ -4,15 +4,15 @@ import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 
 const styles = makeStyles({
-  postImage: {
-    height: "100%",
-  },
   postImageContainer: {
     height: "100%",
     maxHeight: "350px",
     boxShadow: "0px 0px 10px 0px #00000033",
     borderRadius: "5px",
     cursor: "pointer",
+  },
+  postImage: {
+    height: "100%",
   },
 });
 

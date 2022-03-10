@@ -21,6 +21,7 @@ const PostPopup = () => {
     <Grid container justifyContent="center">
       <Grid item container xs={5}>
         {post ? <Post post={post} /> : <PlaceholderPost />}
+        {/* SHUOLD MAKE HERE SOMEWHERE CLICK ON IMAGE = POPUP */}
       </Grid>
     </Grid>
   );

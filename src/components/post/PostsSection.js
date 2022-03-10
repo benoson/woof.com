@@ -11,28 +11,19 @@ import Post from "./Post";
 const styles = makeStyles({
   showingFilteredResultsHeader: {
     textAlign: "left",
-    boxShadow: "0px 0px 10px 5px #00000033",
     padding: "10px 5px",
     borderRadius: "5px",
   },
 });
 
-const PostsSection = ({
-  posts,
-  filteredPosts,
-  filteredKeyword,
-  sectionSize = 4,
-}) => {
+const PostsSection = ({ posts, filteredPosts, filteredKeyword, sectionSize = 4 }) => {
   const classes = styles();
   const dispatch = useDispatch();
 
   const postsArr = Object.values(posts);
   const filteredPostsArr = Object.values(filteredPosts);
 
-  const postsToShow =
-    filteredKeyword && filteredPostsArr.length > 0
-      ? filteredPostsArr
-      : postsArr;
+  const postsToShow = filteredKeyword && filteredPostsArr.length > 0 ? filteredPostsArr : postsArr;
 
   const onFilteredKeywordClick = () => {
     dispatch({ type: postsActionTypes.CLEAR_FILTERED_POSTS });
@@ -42,14 +33,7 @@ const PostsSection = ({
     <Grid container item spacing={4}>
       {filteredKeyword && (
         <Grid container item justifyContent="center">
-          <Grid
-            item
-            container
-            xs={sectionSize}
-            spacing={1}
-            direction="column"
-            className={classes.showingFilteredResultsHeader}
-          >
+          <Grid item container xs={sectionSize} spacing={1} direction="column" className={classes.showingFilteredResultsHeader}>
             <Grid item>
               <Typography>Showing filtered results:</Typography>
             </Grid>
@@ -61,13 +45,7 @@ const PostsSection = ({
         </Grid>
       )}
 
-      <Grid
-        container
-        item
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column"
-      >
+      <Grid container item justifyContent="center" alignItems="center" flexDirection="column">
         <Grid item container xs={sectionSize} rowGap={6}>
           {postsToShow.length > 0 ? (
             postsToShow.map((post) => <Post key={post._id} post={post} />)

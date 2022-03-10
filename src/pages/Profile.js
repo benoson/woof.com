@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Divider, Grid, Skeleton, Stack, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import {
-  Divider,
-  Grid,
-  Skeleton,
-  Stack,
-  Tooltip,
-  Typography,
-} from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import * as userService from "../services/userService";
 import { LightTooltip } from "../components/common/ui/LightToolTip";
 import PostsSection from "../components/post/PostsSection";
+import * as userService from "../services/userService";
+import { useDispatch, useSelector } from "react-redux";
+import postsActionTypes from "../redux/actionTypes/postsActionTypes";
+import { postsSelector } from "../redux/selectors";
 
 const styles = makeStyles({
   container: {
@@ -25,6 +21,7 @@ const styles = makeStyles({
     border: "10px solid white",
     borderRadius: "50%",
     position: "relative",
+    backgroundColor: "white",
   },
   userImage: {
     borderRadius: "50%",
@@ -53,17 +50,24 @@ const styles = makeStyles({
 
 const Profile = () => {
   const classes = styles();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const posts = useSelector(postsSelector);
 
   const { userName } = useParams();
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    const x = async () => {
-      setUserData(await userService.getUserProfileData(userName));
+    const getUserDataFromServer = async () => {
+      const userDataRes = await userService.getUserProfileData(userName);
+      const userPosts = userDataRes.posts;
+
+      setUserData(userDataRes);
+      dispatch({ type: postsActionTypes.FEED_DATA_FETCH_SUCCESS, payload: userPosts });
     };
 
-    x();
+    getUserDataFromServer();
   }, [userName]);
 
   const UserImageSection = () => {
@@ -80,13 +84,7 @@ const Profile = () => {
     const classes = styles();
 
     return (
-      <Grid
-        container
-        item
-        rowSpacing={1}
-        className={classes.userInfoSection}
-        justifyContent="space-between"
-      >
+      <Grid container item rowSpacing={1} className={classes.userInfoSection} justifyContent="space-between">
         {userData?.friends?.length > 0 ? (
           <>
             <Grid item container>
@@ -101,11 +99,7 @@ const Profile = () => {
                     onFriendImageClick(friend.name);
                   }}
                 >
-                  <img
-                    src={friend.image}
-                    alt=""
-                    className={classes.friendImage}
-                  />
+                  <img src={friend.image} alt="" className={classes.friendImage} />
                 </LightTooltip>
               </Grid>
             ))}
@@ -138,29 +132,17 @@ const Profile = () => {
   const UserPostsSection = () => {
     const classes = styles();
 
-    if (userData?.posts?.length === 0) {
+    if (Object.keys(posts).length === 0) {
       return (
         <Grid item container>
-          <Typography>
-            {userData.name} doesn't have any memes posted yet
-          </Typography>
+          <Typography>{userData.name} doesn't have any memes posted yet</Typography>
         </Grid>
       );
     }
 
-    const postsObj = {};
-    userData?.posts?.map((post) => {
-      postsObj[post._id] = post;
-    });
-
     return (
       <Grid item xs={12}>
-        <PostsSection
-          posts={postsObj}
-          filteredPosts={{}}
-          filteredKeyword={null}
-          sectionSize={7}
-        />
+        <PostsSection posts={posts} filteredPosts={{}} filteredKeyword={null} sectionSize={7} />
       </Grid>
     );
   };
@@ -173,13 +155,7 @@ const Profile = () => {
     <Grid container item justifyContent="center" className={classes.container}>
       {userData.name ? (
         <Grid item container xs={8} alignItems="flex-start">
-          <Grid
-            item
-            container
-            xs={2}
-            direction="column"
-            className={classes.userLeftSideContainer}
-          >
+          <Grid item container xs={2} direction="column" className={classes.userLeftSideContainer}>
             <UserImageSection />
 
             <UserInfoSection />
@@ -199,7 +175,7 @@ const Profile = () => {
         <Stack spacing={1}>
           <Skeleton variant="text" />
           <Skeleton variant="circular" width={200} height={200} />
-          <Skeleton variant="rectangular" width={800} height={500} />
+          <Skeleton variant="rectangular" width={1000} height={500} />
         </Stack>
       )}
     </Grid>

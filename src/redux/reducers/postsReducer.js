@@ -12,12 +12,10 @@ const postsReducer = (state = defaultState, action) => {
   switch (action.type) {
     case postsActionTypes.FEED_DATA_FETCH_SUCCESS:
       const allPosts = action.payload;
-      const newPostsState = { ...state.feedPosts };
+      const newPostsState = {};
 
       allPosts.map((post) => {
-        post.timeOfCreation = moment(new Date(post.timeOfCreation))
-          .startOf("hour")
-          .fromNow();
+        post.timeOfCreation = moment(new Date(post.timeOfCreation)).startOf("hour").fromNow();
 
         newPostsState[post._id] = post;
       });
@@ -34,14 +32,9 @@ const postsReducer = (state = defaultState, action) => {
 
     case postsActionTypes.ADD_POST_SUCCESS:
       const addedPost = action.payload;
-      addedPost.timeOfCreation = moment(new Date(addedPost.timeOfCreation))
-        .startOf("hour")
-        .fromNow();
+      addedPost.timeOfCreation = moment(new Date(addedPost.timeOfCreation)).startOf("hour").fromNow();
 
-      const postsUpdated = Object.assign(
-        { [addedPost._id]: addedPost },
-        { ...state.feedPosts }
-      );
+      const postsUpdated = Object.assign({ [addedPost._id]: addedPost }, { ...state.feedPosts });
 
       return {
         ...state,
@@ -51,9 +44,7 @@ const postsReducer = (state = defaultState, action) => {
 
     case postsActionTypes.UPDATE_POST_SUCCESS:
       const updatedPost = action.payload;
-      updatedPost.timeOfCreation = moment(new Date(updatedPost.timeOfCreation))
-        .startOf("hour")
-        .fromNow();
+      updatedPost.timeOfCreation = moment(new Date(updatedPost.timeOfCreation)).startOf("hour").fromNow();
 
       const allPostsUpdated = { ...state.feedPosts };
       allPostsUpdated[updatedPost._id] = updatedPost;
@@ -76,18 +67,18 @@ const postsReducer = (state = defaultState, action) => {
       };
 
     case postsActionTypes.FILTER_POSTS:
-      const filterTag = action.payload;
-      const filterTagLower = filterTag.toLowerCase();
+      const { tag, navigate } = action.payload;
+      const filterTagLower = tag.toLowerCase();
       const preFilterPosts = { ...state.feedPosts };
       const filteredPosts = {};
 
       Object.values(preFilterPosts).map((post) => {
-        if (
-          post.tags.map((tag) => tag.toLowerCase()).includes(filterTagLower)
-        ) {
+        if (post.tags.map((tag) => tag.toLowerCase()).includes(filterTagLower)) {
           filteredPosts[post._id] = post;
         }
       });
+
+      navigate("/");
 
       return {
         ...state,
