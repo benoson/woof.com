@@ -119,6 +119,7 @@ const Navbar = () => {
 
   const onSearchFieldOutOfFocus = () => {
     setSearchResults([]);
+    setSearchValue("");
     setIsSearchResultsBoxOpen(false);
   };
 
@@ -134,8 +135,9 @@ const Navbar = () => {
     });
   };
 
-  const onFriendClick = (friendName) => {
+  const onUserResultClick = (friendName) => {
     setSearchResults([]);
+    setSearchValue("");
     setIsSearchResultsBoxOpen(false);
     navigate(`/profile/${friendName}`);
   };
@@ -228,7 +230,7 @@ const Navbar = () => {
                   <ListItem
                     button
                     onClick={() => {
-                      onFriendClick(user.name);
+                      onUserResultClick(user.name);
                     }}
                   >
                     <Grid

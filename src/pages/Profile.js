@@ -22,11 +22,12 @@ const styles = makeStyles({
     borderRadius: "50%",
     position: "relative",
     backgroundColor: "white",
+    textAlign: "center",
   },
   userImage: {
     borderRadius: "50%",
-    height: "193px",
-    width: "100%",
+    height: "170px",
+    width: "170px",
     objectFit: "cover",
   },
   friendImage: {
@@ -34,6 +35,7 @@ const styles = makeStyles({
     width: "40px",
     objectFit: "cover",
     borderRadius: "50%",
+    cursor: "pointer",
   },
   userInfoSection: {
     backgroundColor: "lightslategrey",
@@ -64,7 +66,10 @@ const Profile = () => {
       const userPosts = userDataRes.posts;
 
       setUserData(userDataRes);
-      dispatch({ type: postsActionTypes.FEED_DATA_FETCH_SUCCESS, payload: userPosts });
+      dispatch({
+        type: postsActionTypes.FEED_DATA_FETCH_SUCCESS,
+        payload: userPosts,
+      });
     };
 
     getUserDataFromServer();
@@ -84,25 +89,39 @@ const Profile = () => {
     const classes = styles();
 
     return (
-      <Grid container item rowSpacing={1} className={classes.userInfoSection} justifyContent="space-between">
+      <Grid
+        container
+        item
+        rowSpacing={1}
+        className={classes.userInfoSection}
+        justifyContent="space-between"
+      >
         {userData?.friends?.length > 0 ? (
           <>
             <Grid item container>
-              <Typography color="white">Friends:</Typography>
+              <Typography color="white">
+                Friends ({userData.friends.length}):
+              </Typography>
             </Grid>
 
-            {userData?.friends?.map((friend, index) => (
-              <Grid item xs={3} key={index}>
-                <LightTooltip
-                  title={friend.name}
-                  onClick={() => {
-                    onFriendImageClick(friend.name);
-                  }}
-                >
-                  <img src={friend.image} alt="" className={classes.friendImage} />
-                </LightTooltip>
-              </Grid>
-            ))}
+            <Grid item container justifyContent="flex-start">
+              {userData?.friends?.map((friend, index) => (
+                <Grid item xs={3} key={index}>
+                  <LightTooltip
+                    title={friend.name}
+                    onClick={() => {
+                      onFriendImageClick(friend.name);
+                    }}
+                  >
+                    <img
+                      src={friend.image}
+                      alt=""
+                      className={classes.friendImage}
+                    />
+                  </LightTooltip>
+                </Grid>
+              ))}
+            </Grid>
           </>
         ) : (
           <Grid item container>
@@ -135,14 +154,21 @@ const Profile = () => {
     if (Object.keys(posts).length === 0) {
       return (
         <Grid item container>
-          <Typography>{userData.name} doesn't have any memes posted yet</Typography>
+          <Typography>
+            {userData.name} doesn't have any memes posted yet
+          </Typography>
         </Grid>
       );
     }
 
     return (
       <Grid item xs={12}>
-        <PostsSection posts={posts} filteredPosts={{}} filteredKeyword={null} sectionSize={7} />
+        <PostsSection
+          posts={posts}
+          filteredPosts={{}}
+          filteredKeyword={null}
+          sectionSize={7}
+        />
       </Grid>
     );
   };
@@ -155,7 +181,13 @@ const Profile = () => {
     <Grid container item justifyContent="center" className={classes.container}>
       {userData.name ? (
         <Grid item container xs={8} alignItems="flex-start">
-          <Grid item container xs={2} direction="column" className={classes.userLeftSideContainer}>
+          <Grid
+            item
+            container
+            xs={2}
+            direction="column"
+            className={classes.userLeftSideContainer}
+          >
             <UserImageSection />
 
             <UserInfoSection />

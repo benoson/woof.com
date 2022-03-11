@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
-import moreIcon from "../../assets/svgs/more_icon.svg";
-import { makeStyles } from "@mui/styles";
-import Popover from "@mui/material/Popover";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import Popover from "@mui/material/Popover";
+import { makeStyles } from "@mui/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { userSelector } from "../../redux/selectors";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import moreIcon from "../../assets/svgs/more_icon.svg";
 import postsActionTypes from "../../redux/actionTypes/postsActionTypes";
+import { userSelector } from "../../redux/selectors";
 
 const styles = makeStyles({
   authorImg: {
@@ -28,14 +29,22 @@ const styles = makeStyles({
   redText: {
     color: "rgb(244, 67, 54)",
   },
+  clickable: {
+    cursor: "pointer",
+  },
 });
 
 const PostHeader = ({ authorImg, authorName, timeOfCreation, postId }) => {
   const classes = styles();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const userFromState = useSelector(userSelector);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const onUserClick = () => {
+    navigate(`/profile/${authorName}`);
+  };
 
   const assignAnchorElement = (event) => {
     setAnchorEl(event.currentTarget);
@@ -77,7 +86,15 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation, postId }) => {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Grid container item xs={6} alignItems="center" spacing={1}>
+      <Grid
+        container
+        item
+        xs={6}
+        alignItems="center"
+        spacing={1}
+        onClick={onUserClick}
+        className={classes.clickable}
+      >
         <Grid item>
           <img src={authorImg} alt="" className={classes.authorImg} />
         </Grid>
