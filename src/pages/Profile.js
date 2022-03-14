@@ -163,12 +163,7 @@ const Profile = () => {
 
     return (
       <Grid item xs={12}>
-        <PostsSection
-          posts={posts}
-          filteredPosts={{}}
-          filteredKeyword={null}
-          sectionSize={7}
-        />
+        <PostsSection posts={posts} sectionSize={7} />
       </Grid>
     );
   };

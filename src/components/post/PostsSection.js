@@ -3,9 +3,10 @@ import Chip from "@mui/material/Chip";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import postsActionTypes from "../../redux/actionTypes/postsActionTypes";
 import PlaceholderPost from "../common/ui/PlaceholderPost";
+import { filteredKeywordSelector } from "../../redux/selectors";
 import Post from "./Post";
 
 const styles = makeStyles({
@@ -16,14 +17,13 @@ const styles = makeStyles({
   },
 });
 
-const PostsSection = ({ posts, filteredPosts, filteredKeyword, sectionSize = 4 }) => {
+const PostsSection = ({ posts, sectionSize = 4 }) => {
   const classes = styles();
   const dispatch = useDispatch();
 
-  const postsArr = Object.values(posts);
-  const filteredPostsArr = Object.values(filteredPosts);
+  const filteredKeyword = useSelector(filteredKeywordSelector);
 
-  const postsToShow = filteredKeyword && filteredPostsArr.length > 0 ? filteredPostsArr : postsArr;
+  const postsArr = Object.values(posts);
 
   const onFilteredKeywordClick = () => {
     dispatch({ type: postsActionTypes.CLEAR_FILTERED_POSTS });
@@ -33,7 +33,14 @@ const PostsSection = ({ posts, filteredPosts, filteredKeyword, sectionSize = 4 }
     <Grid container item spacing={4}>
       {filteredKeyword && (
         <Grid container item justifyContent="center">
-          <Grid item container xs={sectionSize} spacing={1} direction="column" className={classes.showingFilteredResultsHeader}>
+          <Grid
+            item
+            container
+            xs={sectionSize}
+            spacing={1}
+            direction="column"
+            className={classes.showingFilteredResultsHeader}
+          >
             <Grid item>
               <Typography>Showing filtered results:</Typography>
             </Grid>
@@ -45,10 +52,16 @@ const PostsSection = ({ posts, filteredPosts, filteredKeyword, sectionSize = 4 }
         </Grid>
       )}
 
-      <Grid container item justifyContent="center" alignItems="center" flexDirection="column">
+      <Grid
+        container
+        item
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+      >
         <Grid item container xs={sectionSize} rowGap={6}>
-          {postsToShow.length > 0 ? (
-            postsToShow.map((post) => <Post key={post._id} post={post} />)
+          {postsArr.length > 0 ? (
+            postsArr.map((post) => <Post key={post._id} post={post} />)
           ) : (
             <>
               <PlaceholderPost />

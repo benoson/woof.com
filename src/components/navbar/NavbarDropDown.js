@@ -28,11 +28,21 @@ const NavbarDropDown = ({ userName }) => {
     navigate(`profile/${userName}`);
   };
 
+  const onPreferencesClick = () => {
+    navigate("/preferences");
+  };
+
   return (
     <Grid container>
       <List>
         <ListItem button onClick={onUsernameClick}>
           {userName}
+        </ListItem>
+
+        <Divider />
+
+        <ListItem button onClick={onPreferencesClick}>
+          Preferences
         </ListItem>
 
         <Divider />
