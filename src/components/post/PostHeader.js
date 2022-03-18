@@ -79,22 +79,8 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation, postId }) => {
   const isPopoverOpen = Boolean(anchorEl);
 
   return (
-    <Grid
-      container
-      item
-      xs={12}
-      justifyContent="space-between"
-      alignItems="center"
-    >
-      <Grid
-        container
-        item
-        xs={6}
-        alignItems="center"
-        spacing={1}
-        onClick={onUserClick}
-        className={classes.clickable}
-      >
+    <Grid container item xs={12} justifyContent="space-between" alignItems="center">
+      <Grid container item xs={6} alignItems="center" spacing={1} onClick={onUserClick} className={classes.clickable}>
         <Grid item>
           <img src={authorImg} alt="" className={classes.authorImg} />
         </Grid>
@@ -104,12 +90,7 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation, postId }) => {
       </Grid>
 
       <Grid container item xs={6} justifyContent="flex-end">
-        <img
-          alt=""
-          src={moreIcon}
-          className={classes.moreIcon}
-          onClick={assignAnchorElement}
-        />
+        <img alt="" src={moreIcon} className={classes.moreIcon} onClick={assignAnchorElement} />
         <Popover
           open={isPopoverOpen}
           anchorEl={anchorEl}
@@ -122,11 +103,7 @@ const PostHeader = ({ authorImg, authorName, timeOfCreation, postId }) => {
             </ListItem>
 
             {userFromState.userName === authorName && (
-              <ListItem
-                button
-                className={classes.redText}
-                onClick={onDeletePostClick}
-              >
+              <ListItem button className={classes.redText} onClick={onDeletePostClick}>
                 Delete post
               </ListItem>
             )}

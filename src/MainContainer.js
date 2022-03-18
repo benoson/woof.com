@@ -1,12 +1,7 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthenticatedRoute from "./components/common/AuthenticatedRoute";
@@ -17,11 +12,7 @@ import Feed from "./pages/Feed";
 import Preferences from "./pages/Preferences";
 import Profile from "./pages/Profile";
 import RegisterOrLogin from "./pages/RegisterOrLogin";
-import {
-  shouldDisplayUploadSectionSelector,
-  userLoadingSelector,
-  userSelector,
-} from "./redux/selectors";
+import { shouldDisplayUploadSectionSelector, userLoadingSelector, userSelector } from "./redux/selectors";
 
 const MainContainer = () => {
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
@@ -73,7 +64,7 @@ const MainContainer = () => {
         </Routes>
       </Router>
 
-      <ToastContainer />
+      <ToastContainer theme="dark" />
     </Grid>
   );
 };
