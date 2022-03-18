@@ -18,6 +18,10 @@ export const userSelector = (state) => {
   return state.user.userData;
 };
 
+export const friendsSelector = (state) => {
+  return state.user.userData.friends;
+};
+
 export const userLoadingSelector = (state) => {
   return state.user.loading;
 };

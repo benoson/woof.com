@@ -1,11 +1,15 @@
 import usersActionTypes from "../actionTypes/usersActionTypes";
-import { handleAuthResposeFromServer, handleLogout } from "../../components/common/logic/HandleAuth";
+import {
+  handleAuthResposeFromServer,
+  handleLogout,
+} from "../../components/common/logic/HandleAuth";
 
 const defaultState = {
   userData: {
     userName: JSON.parse(localStorage.getItem("userData"))?.user?.name,
     profileImage: JSON.parse(localStorage.getItem("userData"))?.user?.image,
     isLogged: JSON.parse(localStorage.getItem("userData"))?.token,
+    friends: [],
   },
   error: null,
   loading: false,
@@ -34,6 +38,7 @@ const userReducer = (state = defaultState, action) => {
           ...state.userData,
           userName: userRegisterDataFromServer.user.name,
           profileImage: userRegisterDataFromServer.user.image,
+          friends: userRegisterDataFromServer.user.friends,
           isLogged: true,
         },
         error: null,
@@ -49,6 +54,7 @@ const userReducer = (state = defaultState, action) => {
           ...state.userData,
           userName: userLoginDataFromServer.user.name,
           profileImage: userLoginDataFromServer.user.image,
+          friends: userLoginDataFromServer.user.friends,
           isLogged: true,
         },
         error: null,
