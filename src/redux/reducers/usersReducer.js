@@ -11,6 +11,13 @@ const defaultState = {
     isLogged: JSON.parse(localStorage.getItem("userData"))?.token,
     friends: [],
   },
+  preferences: {
+    background: JSON.parse(localStorage.getItem("preferences")?.background),
+    button: JSON.parse(localStorage.getItem("preferences")?.button),
+    postBackground: JSON.parse(
+      localStorage.getItem("preferences")?.postBackground
+    ),
+  },
   error: null,
   loading: false,
 };
@@ -84,13 +91,16 @@ const userReducer = (state = defaultState, action) => {
 
     case usersActionTypes.ADD_FRIEND_SUCCESS:
       const { friend } = action.payload;
+      const friendsUpdated = state.userData.friends;
+      friendsUpdated.push(friend);
+
       return {
         ...state,
         error: null,
         loading: false,
         userData: {
           ...state.userData,
-          friends: [...state.friends, friend],
+          friends: friendsUpdated,
         },
       };
 

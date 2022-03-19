@@ -7,7 +7,6 @@ import {
   ListItem,
   ListItemText,
   ListItemAvatar,
-  Avatar,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
@@ -19,21 +18,24 @@ const styles = makeStyles({
     position: "fixed",
     bottom: 0,
     left: 0,
-    boxShadow: "0px 0px 3px 1px lightslategrey",
     backgroundColor: "white",
-    borderTopLeftRadius: "10px",
     borderTopRightRadius: "10px",
+    border: "1px solid #77889973",
   },
   chatBoxHeader: {
     cursor: "pointer",
-    boxShadow: "0px 1px 2px 0px #00000059",
-    padding: "3px 0",
+    padding: "8px 0",
+    borderTopRightRadius: "10px",
+    backgroundColor: "#4FD3C4",
   },
   img: {
-    width: "40px",
-    height: "40px",
+    width: "32px",
+    height: "32px",
     borderRadius: "50%",
     objectFit: "cover",
+  },
+  collapse: {
+    width: "100%",
   },
 });
 
@@ -59,15 +61,17 @@ const Chat = () => {
       </Grid>
 
       <Grid item container>
-        <Collapse in={isExpanded}>
+        <Collapse in={isExpanded} className={classes.collapse}>
           {friends.length > 0 ? (
             <List>
               {friends.map((friend, index) => (
-                <ListItem key={friend.name} button>
+                <ListItem
+                  key={friend.name}
+                  button
+                  divider={index !== friends.length - 1}
+                >
                   <ListItemAvatar>
-                    <Avatar>
-                      <img src={friend.image} alt="" className={classes.img} />
-                    </Avatar>
+                    <img src={friend.image} alt="" className={classes.img} />
                   </ListItemAvatar>
 
                   <ListItemText>{friend.name}</ListItemText>

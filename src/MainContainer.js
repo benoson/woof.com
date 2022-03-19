@@ -20,6 +20,7 @@ import Profile from "./pages/Profile";
 import RegisterOrLogin from "./pages/RegisterOrLogin";
 import usersActionTypes from "./redux/actionTypes/usersActionTypes";
 import {
+  preferencesSelector,
   shouldDisplayUploadSectionSelector,
   userLoadingSelector,
   userSelector,
@@ -31,13 +32,18 @@ const MainContainer = () => {
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
   const userFromState = useSelector(userSelector);
   const userLoadingSelectorFromState = useSelector(userLoadingSelector);
+  const preferences = useSelector(preferencesSelector);
 
   useEffect(() => {
     dispatch({ type: usersActionTypes.USER_DATA_REQUEST });
   }, []);
 
+  const styledByPreferences = {
+    backgroundColor: preferences.background || "white",
+  };
+
   return (
-    <Grid container>
+    <Grid container style={styledByPreferences}>
       <Router>
         {userFromState.isLogged && (
           <>

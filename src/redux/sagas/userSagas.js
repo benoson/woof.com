@@ -108,7 +108,6 @@ function* addFriend(action) {
       progress: undefined,
     });
   } catch (error) {
-    console.log("----", error);
     yield put({ type: usersActionTypes.ADD_FRIEND_FAIL, payload: error });
     toast.error("🤔 Can't find that user", {
       position: "bottom-left",

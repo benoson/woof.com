@@ -25,3 +25,7 @@ export const friendsSelector = (state) => {
 export const userLoadingSelector = (state) => {
   return state.user.loading;
 };
+
+export const preferencesSelector = (state) => {
+  return state.user.preferences;
+};
