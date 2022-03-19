@@ -88,6 +88,22 @@ const userReducer = (state = defaultState, action) => {
         ...state,
         error: null,
         loading: false,
+        userData: {
+          ...state.userData,
+          friends: [...state.friends, friend],
+        },
+      };
+
+    case usersActionTypes.USER_DATA_SUCCESS:
+      const { userData } = action.payload;
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        userData: {
+          ...state.userData,
+          friends: userData.friends,
+        },
       };
 
     default:

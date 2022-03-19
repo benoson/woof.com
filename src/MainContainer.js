@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -18,6 +18,7 @@ import Feed from "./pages/Feed";
 import Preferences from "./pages/Preferences";
 import Profile from "./pages/Profile";
 import RegisterOrLogin from "./pages/RegisterOrLogin";
+import usersActionTypes from "./redux/actionTypes/usersActionTypes";
 import {
   shouldDisplayUploadSectionSelector,
   userLoadingSelector,
@@ -25,9 +26,15 @@ import {
 } from "./redux/selectors";
 
 const MainContainer = () => {
+  const dispatch = useDispatch();
+
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
   const userFromState = useSelector(userSelector);
   const userLoadingSelectorFromState = useSelector(userLoadingSelector);
+
+  useEffect(() => {
+    dispatch({ type: usersActionTypes.USER_DATA_REQUEST });
+  }, []);
 
   return (
     <Grid container>

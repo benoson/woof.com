@@ -8,7 +8,6 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
-  Divider,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useSelector } from "react-redux";
@@ -19,10 +18,16 @@ const styles = makeStyles({
     width: "250px",
     position: "fixed",
     bottom: 0,
-    left: "100px",
+    left: 0,
     boxShadow: "0px 0px 3px 1px lightslategrey",
     backgroundColor: "white",
-    padding: "3px",
+    borderTopLeftRadius: "10px",
+    borderTopRightRadius: "10px",
+  },
+  chatBoxHeader: {
+    cursor: "pointer",
+    boxShadow: "0px 1px 2px 0px #00000059",
+    padding: "3px 0",
   },
   img: {
     width: "40px",
@@ -43,9 +48,14 @@ const Chat = () => {
   };
 
   return (
-    <Grid container item onClick={onChatBoxClick} className={classes.container}>
-      <Grid item>
-        <Typography>Friends</Typography>
+    <Grid container item className={classes.container}>
+      <Grid
+        item
+        xs={12}
+        onClick={onChatBoxClick}
+        className={classes.chatBoxHeader}
+      >
+        <Typography>Friends ({friends.length || 0})</Typography>
       </Grid>
 
       <Grid item container>
@@ -53,23 +63,15 @@ const Chat = () => {
           {friends.length > 0 ? (
             <List>
               {friends.map((friend, index) => (
-                <>
-                  <ListItem key={friend.name}>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <img
-                          src={friend.image}
-                          alt=""
-                          className={classes.img}
-                        />
-                      </Avatar>
-                    </ListItemAvatar>
+                <ListItem key={friend.name} button>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <img src={friend.image} alt="" className={classes.img} />
+                    </Avatar>
+                  </ListItemAvatar>
 
-                    <ListItemText>{friend.name}</ListItemText>
-                  </ListItem>
-
-                  {index !== friends.length - 1 && <Divider />}
-                </>
+                  <ListItemText>{friend.name}</ListItemText>
+                </ListItem>
               ))}
             </List>
           ) : (

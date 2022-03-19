@@ -68,3 +68,12 @@ export const getUserProfileData = async (userName) => {
     console.error("Error trying to get user profile data:", error);
   }
 };
+
+export const getUserData = async () => {
+  try {
+    const userData = await axios.get(`${serverUrl}/users/user`);
+    return userData.data;
+  } catch (error) {
+    console.error("Error trying to get user data:", error);
+  }
+};

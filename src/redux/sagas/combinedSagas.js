@@ -12,5 +12,6 @@ export default function* combinedSagas() {
     userSagas.registerListener(),
     userSagas.loginListener(),
     userSagas.addFriendListener(),
+    userSagas.getUserDataListener(),
   ]);
 }

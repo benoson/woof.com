@@ -125,3 +125,21 @@ function* addFriend(action) {
 export function* addFriendListener() {
   yield takeLatest(usersActionTypes.ADD_FRIEND_REQUEST, addFriend);
 }
+
+function* getUserData(action) {
+  try {
+    const userData = yield call(userService.getUserData);
+    yield put({
+      type: usersActionTypes.USER_DATA_SUCCESS,
+      payload: {
+        userData,
+      },
+    });
+  } catch (error) {
+    yield put({ type: usersActionTypes.USER_DATA_FAIL, payload: error });
+  }
+}
+
+export function* getUserDataListener() {
+  yield takeLatest(usersActionTypes.USER_DATA_REQUEST, getUserData);
+}

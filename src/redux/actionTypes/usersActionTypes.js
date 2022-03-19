@@ -12,6 +12,10 @@ const usersActionTypes = {
   ADD_FRIEND_REQUEST: "add.friend.request",
   ADD_FRIEND_SUCCESS: "add.friend.success",
   ADD_FRIEND_FAIL: "add.friend.fail",
+
+  USER_DATA_REQUEST: "user.data.request",
+  USER_DATA_SUCCESS: "user.data.success",
+  USER_DATA_FAIL: "user.data.fail",
 };
 
 export default usersActionTypes;
