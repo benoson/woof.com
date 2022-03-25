@@ -1,8 +1,5 @@
 import usersActionTypes from "../actionTypes/usersActionTypes";
-import {
-  handleAuthResposeFromServer,
-  handleLogout,
-} from "../../components/common/logic/HandleAuth";
+import { handleAuthResposeFromServer, handleLogout } from "../../components/common/logic/HandleAuth";
 
 const defaultState = {
   userData: {
@@ -12,11 +9,11 @@ const defaultState = {
     friends: [],
   },
   preferences: {
-    background: JSON.parse(localStorage.getItem("preferences")?.background),
-    button: JSON.parse(localStorage.getItem("preferences")?.button),
-    postBackground: JSON.parse(
-      localStorage.getItem("preferences")?.postBackground
-    ),
+    // background: JSON.parse(localStorage.getItem("preferences")?.background),
+    // button: JSON.parse(localStorage.getItem("preferences")?.button),
+    // postBackground: JSON.parse(
+    //   localStorage.getItem("preferences")?.postBackground
+    // ),
   },
   error: null,
   loading: false,

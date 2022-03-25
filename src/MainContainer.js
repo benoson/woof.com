@@ -1,12 +1,7 @@
 import { Grid } from "@mui/material";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
+import React from "react";
+import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Chat from "./components/chat/Chat";
@@ -18,25 +13,13 @@ import Feed from "./pages/Feed";
 import Preferences from "./pages/Preferences";
 import Profile from "./pages/Profile";
 import RegisterOrLogin from "./pages/RegisterOrLogin";
-import usersActionTypes from "./redux/actionTypes/usersActionTypes";
-import {
-  preferencesSelector,
-  shouldDisplayUploadSectionSelector,
-  userLoadingSelector,
-  userSelector,
-} from "./redux/selectors";
+import { preferencesSelector, shouldDisplayUploadSectionSelector, userLoadingSelector, userSelector } from "./redux/selectors";
 
 const MainContainer = () => {
-  const dispatch = useDispatch();
-
   const isShowUploadSection = useSelector(shouldDisplayUploadSectionSelector);
   const userFromState = useSelector(userSelector);
   const userLoadingSelectorFromState = useSelector(userLoadingSelector);
   const preferences = useSelector(preferencesSelector);
-
-  useEffect(() => {
-    dispatch({ type: usersActionTypes.USER_DATA_REQUEST });
-  }, []);
 
   const styledByPreferences = {
     backgroundColor: preferences.background || "white",
