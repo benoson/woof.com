@@ -27,5 +27,5 @@ export const userLoadingSelector = (state) => {
 };
 
 export const preferencesSelector = (state) => {
-  return state.user.preferences;
+  return state.preferences.preferences;
 };

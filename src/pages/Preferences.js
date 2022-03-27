@@ -14,7 +14,6 @@ const styles = makeStyles({
     margin: "20px 0px",
   },
   innerContainer: {
-    backgroundColor: "#212f45",
     padding: "20px",
     borderRadius: "10px",
   },
@@ -22,7 +21,7 @@ const styles = makeStyles({
     padding: "20px 0",
   },
   divider: {
-    backgroundColor: "white",
+    backgroundColor: "#212f45",
   },
 });
 
@@ -41,48 +40,64 @@ const customAppColors = [
 
 const customButtonImages = [Pepe, NyanCat];
 
-const SelectBackgroundOptions = (onBackgroundChange) => {
-  return (
-    <Grid item container spacing={1}>
-      <Grid item container spacing={1}>
-        {customAppColors.map((color) => (
-          <Grid item key={color}>
-            <ContainerButton
-              style={{ backgroundColor: color }}
-              onClick={() => {
-                onBackgroundChange(color);
-              }}
-            />
-          </Grid>
-        ))}
-      </Grid>
+const SelectBackgroundOptions = ({ onBackgroundChange }) => {
+  const classes = styles();
 
-      <Grid item container spacing={1}>
-        {customButtonImages.map((img) => (
-          <Grid item key={img}>
-            <ContainerButton>
-              <img alt="" src={img} />
-            </ContainerButton>
+  const [exampleBackgroundColor, setExampleBackgroundColor] = useState("white");
+  const [exampleBackgroundImage, setExampleBackgroundImage] = useState(null);
+
+  return (
+    <Grid item container>
+      <List>
+        <ListItem>
+          <Grid item container spacing={1}>
+            {customAppColors.map((color) => (
+              <Grid item key={color}>
+                <ContainerButton
+                  style={{ backgroundColor: color }}
+                  onClick={() => {
+                    onBackgroundChange(color);
+                  }}
+                />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </ListItem>
+
+        <Divider className={classes.divider} />
+
+        <ListItem>
+          <Grid item container spacing={1}>
+            {customButtonImages.map((img) => (
+              <Grid item key={img}>
+                <ContainerButton
+                  onClick={() => {
+                    onBackgroundChange(`url(${img})`);
+                  }}
+                >
+                  <img alt="" src={img} />
+                </ContainerButton>
+              </Grid>
+            ))}
+          </Grid>
+        </ListItem>
+      </List>
     </Grid>
   );
 };
 
 const Preferences = () => {
   const classes = styles();
-  const [exampleBackground, setExampleBackground] = useState("white");
 
   const preferences = [
     {
       title: "Background",
-      description: "Change the background of all pages",
+      description: "Change the general background of all pages",
       additionalElements: () => {
         return (
           <SelectBackgroundOptions
             onBackgroundChange={(color) => {
-              setExampleBackground(color);
+              // setExampleBackground(color);
             }}
           />
         );
@@ -92,20 +107,22 @@ const Preferences = () => {
 
     {
       title: "Buttons",
-      description: "Change background of all the buttons",
+      description: "Change the background of all buttons",
       additionalElements: () => {
         return (
           <Grid item container>
             <Grid item>
               <SelectBackgroundOptions
                 onBackgroundChange={(color) => {
-                  setExampleBackground(color);
+                  // setExampleBackground(color);
                 }}
               />
             </Grid>
 
             <Grid item>
-              <ContainerButton style={{ backgroundColor: exampleBackground }} />
+              <ContainerButton style={{ background: "white", width: "100%" }}>
+                Example button
+              </ContainerButton>
             </Grid>
           </Grid>
         );
@@ -129,11 +146,11 @@ const Preferences = () => {
               <ListItem className={classes.listItem} key={preference}>
                 <Grid container item xs={12}>
                   <Grid item xs={8}>
-                    <Typography color="white" fontSize="24px" align="left">
+                    <Typography color="#212f45" fontSize="24px" align="left">
                       {preference.title}
                     </Typography>
 
-                    <Typography color="white" fontSize="18px" align="left">
+                    <Typography color="#212f45" fontSize="18px" align="left">
                       {preference.description}
                     </Typography>
                   </Grid>

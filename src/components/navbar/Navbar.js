@@ -85,7 +85,9 @@ const Navbar = () => {
   useEffect(() => {
     if (searchValue.trim() !== "") {
       const getSearchResults = async () => {
-        const searchResults = await userService.getUsersSearchResults(searchValue);
+        const searchResults = await userService.getUsersSearchResults(
+          searchValue
+        );
         setSearchResults(searchResults);
         setIsSearchResultsBoxOpen(true);
       };
@@ -145,9 +147,21 @@ const Navbar = () => {
   return (
     <Grid container item xs={12} className={classes.container}>
       {/* MOVE THIS TO ANOTHER COMPONENT IN SAME FILE  */}
-      {searchResults.length > 0 && <div className={classes.searchResultsBackground} onClick={onSearchFieldOutOfFocus}></div>}
+      {searchResults.length > 0 && (
+        <div
+          className={classes.searchResultsBackground}
+          onClick={onSearchFieldOutOfFocus}
+        ></div>
+      )}
 
-      <Grid container item xs={4} alignItems="flex-end" className={classes.innerContainer} columnGap={4}>
+      <Grid
+        container
+        item
+        xs={4}
+        alignItems="flex-end"
+        className={classes.innerContainer}
+        columnGap={4}
+      >
         <Grid item xs={1}>
           <Popover
             open={isPopoverOpen}
@@ -158,7 +172,11 @@ const Navbar = () => {
             <NavbarDropDown userName={userFromState.userName} />
           </Popover>
 
-          <NavbarItem main img={userFromState.profileImage} rounded onClick={assignAnchorElement} />
+          <NavbarItem
+            img={userFromState.profileImage}
+            rounded
+            onClick={assignAnchorElement}
+          />
         </Grid>
 
         <Grid item xs={1} onClick={onHomeButtonClick}>
@@ -174,7 +192,14 @@ const Navbar = () => {
         </Grid>
       </Grid>
 
-      <Grid container item xs={4} alignItems="center" className={classes.innerContainer} columnGap={1}>
+      <Grid
+        container
+        item
+        xs={4}
+        alignItems="center"
+        className={classes.innerContainer}
+        columnGap={1}
+      >
         <Grid item container xs={12} className={classes.searchContainer}>
           <TextField
             placeholder="Search people"
@@ -211,9 +236,19 @@ const Navbar = () => {
                       alignItems="center"
                       className={classes.resultBox}
                     >
-                      <Grid item container xs={6} alignItems="center" columnGap={2}>
+                      <Grid
+                        item
+                        container
+                        xs={6}
+                        alignItems="center"
+                        columnGap={2}
+                      >
                         <Grid item>
-                          <img src={user.image} className={classes.userResultImage} alt="" />
+                          <img
+                            src={user.image}
+                            className={classes.userResultImage}
+                            alt=""
+                          />
                         </Grid>
 
                         <Grid item>

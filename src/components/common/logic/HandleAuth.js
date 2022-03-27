@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const handleAuthResposeFromServer = (userData) => {
+export const handleAuthResponseFromServer = (userData) => {
   const jsonUserData = JSON.stringify(userData);
   localStorage.setItem("userData", jsonUserData);
 

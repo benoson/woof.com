@@ -1,5 +1,8 @@
 import usersActionTypes from "../actionTypes/usersActionTypes";
-import { handleAuthResposeFromServer, handleLogout } from "../../components/common/logic/HandleAuth";
+import {
+  handleAuthResponseFromServer,
+  handleLogout,
+} from "../../components/common/logic/HandleAuth";
 
 const defaultState = {
   userData: {
@@ -7,13 +10,6 @@ const defaultState = {
     profileImage: JSON.parse(localStorage.getItem("userData"))?.user?.image,
     isLogged: JSON.parse(localStorage.getItem("userData"))?.token,
     friends: [],
-  },
-  preferences: {
-    // background: JSON.parse(localStorage.getItem("preferences")?.background),
-    // button: JSON.parse(localStorage.getItem("preferences")?.button),
-    // postBackground: JSON.parse(
-    //   localStorage.getItem("preferences")?.postBackground
-    // ),
   },
   error: null,
   loading: false,
@@ -35,7 +31,7 @@ const userReducer = (state = defaultState, action) => {
 
     case usersActionTypes.REGISTER_SUCCESS:
       const { userRegisterDataFromServer } = action.payload;
-      handleAuthResposeFromServer(userRegisterDataFromServer);
+      handleAuthResponseFromServer(userRegisterDataFromServer);
       return {
         ...state,
         userData: {
@@ -51,7 +47,7 @@ const userReducer = (state = defaultState, action) => {
 
     case usersActionTypes.LOGIN_SUCCESS:
       const { userLoginDataFromServer } = action.payload;
-      handleAuthResposeFromServer(userLoginDataFromServer);
+      handleAuthResponseFromServer(userLoginDataFromServer);
       return {
         ...state,
         userData: {

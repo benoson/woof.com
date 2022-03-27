@@ -1,5 +1,6 @@
 import * as postSagas from "./postSagas";
 import * as userSagas from "./userSagas";
+import * as preferencesSagas from "./preferencesSagas";
 
 import { all } from "redux-saga/effects";
 
@@ -13,5 +14,6 @@ export default function* combinedSagas() {
     userSagas.loginListener(),
     userSagas.addFriendListener(),
     userSagas.getUserDataListener(),
+    preferencesSagas.updatePreferencesListener(),
   ]);
 }

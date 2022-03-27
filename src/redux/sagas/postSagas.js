@@ -71,13 +71,13 @@ function* deletePost(action) {
       payload: postUpdated.data,
     });
 
-    toast.success("💩 Deleted!", {
+    toast.success("Deleted post", {
       position: "bottom-left",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-      draggable: true,
+      draggable: false,
       progress: undefined,
     });
   } catch (error) {

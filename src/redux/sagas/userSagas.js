@@ -21,16 +21,6 @@ function* register(action) {
       },
     });
 
-    toast.success("🤡 Nice to have you!", {
-      position: "bottom-left",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-
     navigate("/");
   } catch (error) {
     yield put({ type: usersActionTypes.REGISTER_FAIL, payload: error });
@@ -57,16 +47,6 @@ function* login(action) {
       },
     });
 
-    toast.success("🤖 Welcome back!", {
-      position: "bottom-left",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-
     navigate("/");
   } catch (error) {
     yield put({ type: usersActionTypes.LOGIN_FAIL, payload: error });
@@ -76,7 +56,7 @@ function* login(action) {
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-      draggable: true,
+      draggable: false,
       progress: undefined,
     });
   }
@@ -98,24 +78,25 @@ function* addFriend(action) {
       },
     });
 
-    toast.success("🧜‍♂️ Friend request sent!", {
+    toast.success("Friend request sent", {
       position: "bottom-left",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-      draggable: true,
+      draggable: false,
       progress: undefined,
     });
   } catch (error) {
     yield put({ type: usersActionTypes.ADD_FRIEND_FAIL, payload: error });
-    toast.error("🤔 Can't find that user", {
+
+    toast.error("Couldn't find that user", {
       position: "bottom-left",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-      draggable: true,
+      draggable: false,
       progress: undefined,
     });
   }
